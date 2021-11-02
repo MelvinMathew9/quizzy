@@ -86,6 +86,11 @@ class UserTest < ActiveSupport::TestCase
     assert @user.valid?
   end
 
+  def test_user_should_not_have_an_invalid_role
+    @user.role = nil
+    assert @user.invalid?
+  end
+
   def test_password_cannot_be_blank
     @user.password = nil
     assert_not @user.save

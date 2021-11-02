@@ -11,6 +11,7 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { maximum: 50 }
   validates :password, presence: true, confirmation: true, length: { minimum: 6 }
   validates :password_confirmation, presence: true, on: :create
+  validates :role, presence: true
 
   before_save :to_downcase
 
