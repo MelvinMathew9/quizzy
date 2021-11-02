@@ -7,6 +7,7 @@ gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
 # friends of Rails
 gem 'sass-rails', '>= 6'
 
+# Wraps webpack in a Ruby gem and provides helpers to use the output from Webpacker in the Rails application
 gem 'webpacker', '~> 5.0'
 
 # database
@@ -27,11 +28,14 @@ group :development, :test do
 end
 
 group :development do
-  
+  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code
   gem 'web-console', '>= 4.1.0'
-  
+
+  # Reenable after https://github.com/rails/rails/issues/26158 is fixed
   gem 'listen', '~> 3.3'
-  # Spring speeds up development by keeping your application running in the background. 
+
+  # speeds up development by keeping your application running in the background
+  gem "spring"
 end
 
 group :test do
