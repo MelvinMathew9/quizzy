@@ -17,6 +17,9 @@
 !/log/.keep
 !/tmp/.keep
 
+#Rails specific ignores
+test/fixtures
+
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
 !/tmp/pids/
