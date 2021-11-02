@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_02_101642) do
+ActiveRecord::Schema.define(version: 2021_11_02_121044) do
 
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2021_11_02_101642) do
     t.string "email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "roles", default: 0
-    t.integer "role", default: 0
+    t.integer "role", default: 0, null: false
+    t.string "password_digest", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
