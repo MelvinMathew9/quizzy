@@ -78,4 +78,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not test_user.valid?
     assert_equal ["Email has already been taken"], test_user.errors.full_messages
   end
+
+  def test_user_should_have_a_valid_role
+    @user.role = "standard"
+    assert @user.valid?
+  end
 end
