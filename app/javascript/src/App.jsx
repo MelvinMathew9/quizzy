@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import { setAuthHeaders } from "apis/axios";
 import { initializeLogger } from "common/logger";
 
+import Topbar from "./components/Common/Topbar";
 import Login from "./components/Login";
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer />
+      <Topbar />
       <Switch>
         <Route exact path="/" component={Login} />
       </Switch>

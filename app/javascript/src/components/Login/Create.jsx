@@ -4,8 +4,8 @@ import { Input, Button, Typography } from "neetoui";
 
 const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
   return (
-    <div className="flex items-center justify-center min-h-screen space-y-2 px-4">
-      <div className="w-full max-w-md flex flex-col space-y-6">
+    <div className="flex items-center justify-center mt-40 space-y-2  px-4">
+      <div className="w-full max-w-md flex flex-col space-y-6 neeto-ui-shadow-xs p-5">
         <Typography className="self-center" style="h2">
           Login
         </Typography>
