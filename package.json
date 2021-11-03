@@ -20,6 +20,7 @@
   "name": "quizzy-by-melvin9",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.16.0",
     "@bigbinary/neetoui": "^2.1.7",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
@@ -46,7 +47,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "@babel/eslint-parser": "^7.16.0",
-    "@babel/preset-react": "^7.16.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-cypress": "^2.12.1",
