@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
       )
       @current_user = user
     else
-      render status: :unauthorized, json: { errors: [t("session.could_not_auth")] }
+      render status: :unauthorized, json: { error: [t("session.could_not_auth")] }
     end
   end
 
