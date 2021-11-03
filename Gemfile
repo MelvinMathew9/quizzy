@@ -15,6 +15,9 @@ gem "webpacker", "~> 5.0"
 # database
 gem "sqlite3", "~> 1.4"
 
+# Bring React to our Ruby on Rails application
+gem "react-rails"
+
 # Application server
 gem "puma", "~> 5.0"
 

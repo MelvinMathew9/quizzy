@@ -38,17 +38,8 @@ def delete_all_records_from_all_tables
 end
 
 def create_sample_data!
-  create_user! email: "sam@example.com"
-end
-
-def create_user!(options = {})
-  user_attributes = {
-    password: "welcome",
-    password_confirmation: "welcome",
-    first_name: "Sam",
-    last_name: "Smith",
-    role: "administrator"
-  }
-  attributes = user_attributes.merge options
-  User.create! attributes
+  User.create!(
+    email: "sam@example.com", first_name: "Sam", last_name: "Smith",
+    password: "welcome", password_confirmation: "welcome", role: "administrator"
+  )
 end
