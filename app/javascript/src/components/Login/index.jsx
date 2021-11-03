@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { toast } from "react-hot-toast";
+
 import authApi from "apis/auth";
 import { setAuthHeaders } from "apis/axios";
 import { setToLocalStorage } from "helpers/storage";
@@ -15,6 +17,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await authApi.login({ login: { email, password } });
+      toast.success("Logged in successfully");
       setToLocalStorage({
         authToken: response.data.authentication_token,
         email,
