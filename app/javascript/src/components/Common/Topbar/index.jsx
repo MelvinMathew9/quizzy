@@ -4,8 +4,8 @@ import { Typography } from "neetoui";
 
 const Topbar = () => {
   return (
-    <div className="p-5 border-gray-300 border-b-2">
-      <Typography style="h1">Quizzy</Typography>
+    <div className="p-4 border-gray-300 border-b-2">
+      <Typography style="h2">Quizzy</Typography>
     </div>
   );
 };
