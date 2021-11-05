@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Typography, Input, Button } from "neetoui";
+import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
 import quizApi from "../../apis/quiz";
@@ -14,16 +15,20 @@ const CreateQuiz = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    try {
-      setLoading(true);
-      await quizApi.create({
-        quiz: { title, user_id: getFromLocalStorage("authUserId") },
-      });
-      setLoading(false);
-      history.push("/dashboard");
-    } catch (error) {
-      logger.error(error);
-      setLoading(false);
+    if (!title.trim()) {
+      toast.error("Title can't be empty");
+    } else {
+      try {
+        setLoading(true);
+        await quizApi.create({
+          quiz: { title, user_id: getFromLocalStorage("authUserId") },
+        });
+        setLoading(false);
+        history.push("/dashboard");
+      } catch (error) {
+        logger.error(error);
+        setLoading(false);
+      }
     }
   };
   return (

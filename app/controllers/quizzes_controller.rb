@@ -7,7 +7,7 @@ class QuizzesController < ApplicationController
   end
 
   def create
-    @quiz = Quiz.new(quiz_params))
+    @quiz = Quiz.new(quiz_params)
     if @quiz.save
       render status: :ok,
         json: { notice: t("quiz.successfully_created") }
@@ -20,6 +20,6 @@ class QuizzesController < ApplicationController
   private
 
     def quiz_params
-      params.require(:quiz).permit(:title,:user_id)
+      params.require(:quiz).permit(:title, :user_id)
     end
 end
