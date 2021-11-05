@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class Quiz < ApplicationRecord
+  is_sqlite_db = ActiveRecord::Base.connection_db_config.configuration_hash[:adapter] == "sqlite3"
+  DB_REGEX_OPERATOR = is_sqlite_db ? "REGEXP" : "~*".freeze
+
   validates :title, presence: true, length: { maximum: 250 }
   validates :slug, uniqueness: true
   validate :slug_not_changed
@@ -11,7 +14,7 @@ class Quiz < ApplicationRecord
 
     def set_slug
       title_slug = title.parameterize
-      regex_pattern = "slug #{ActiveRecord::Base.connection_db_config.configuration_hash[:adapter] == "sqlite3" ? "REGEXP" : "~*"} ?"
+      regex_pattern = "slug #{Quiz::DB_REGEX_OPERATOR} ?"
       latest_quiz_slug = Quiz.where(
         regex_pattern,
         "#{title_slug}$|#{title_slug}-[0-9]+$"

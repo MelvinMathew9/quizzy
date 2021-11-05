@@ -39,7 +39,7 @@ const Dashboard = () => {
       <div className="flex flex-col w-full py-4 md:px-5 px-4">
         <Button
           label="Add new quiz"
-          onClick={() => history.push("/quizzes/create")}
+          onClick={() => history.push("/quiz/create")}
           iconPosition="left"
           icon={() => <Plus size={18} />}
           className="md:self-end self-center"

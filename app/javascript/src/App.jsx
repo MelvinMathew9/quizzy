@@ -39,7 +39,7 @@ const App = () => {
       <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route exact path="/quizzes/create" component={CreateQuiz} />
+        <Route exact path="/quiz/create" component={CreateQuiz} />
         <PrivateRoute
           path="/"
           redirectRoute="/login"
