@@ -30,7 +30,7 @@ const App = () => {
   return (
     <Router>
       <Toaster position="bottom-center" />
-      <Topbar />
+      <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
         <PrivateRoute
