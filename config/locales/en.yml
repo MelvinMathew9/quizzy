@@ -39,3 +39,4 @@ en:
   quiz:
     slug:
       immutable: "is immutable!"
+    successfully_created: "Quiz was successfully created!"
