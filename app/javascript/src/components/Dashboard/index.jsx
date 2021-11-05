@@ -6,6 +6,8 @@ import { all, isNil, isEmpty, either } from "ramda";
 import { useHistory } from "react-router";
 
 import quizApi from "../../apis/quiz";
+import Container from "../Conatiner";
+import Quiz from "../Quiz";
 
 const Dashboard = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -39,7 +41,7 @@ const Dashboard = () => {
       <div className="flex flex-col w-full py-4 md:px-5 px-4">
         <Button
           label="Add new quiz"
-          onClick={() => history.push("/quiz/create")}
+          onClick={() => history.push("/quizzes/create")}
           iconPosition="left"
           icon={() => <Plus size={18} />}
           className="md:self-end self-center"
@@ -54,7 +56,11 @@ const Dashboard = () => {
     );
   }
 
-  return <></>;
+  return (
+    <Container>
+      <Quiz data={quizzes} />
+    </Container>
+  );
 };
 
 export default Dashboard;
