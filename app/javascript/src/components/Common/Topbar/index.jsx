@@ -27,7 +27,7 @@ const Topbar = ({ isLoggedIn }) => {
       <Typography style="h2" className="flex-grow">
         Quizzy
       </Typography>
-      {isLoggedIn && (
+      {isLoggedIn && window.location.pathname !== "/login" && (
         <div className="flex space-x-4">
           <Button style="link" label="Reports" />
           <Button style="link" label={getFromLocalStorage("userName")} />
