@@ -15,6 +15,7 @@ const Table = ({ quizzes }) => {
               <Button
                 style="secondary"
                 icon={Highlight}
+                to={`/quizzes/${quiz?.slug}/edit`}
                 iconPosition="left"
                 label="Edit"
               ></Button>
@@ -85,7 +86,7 @@ const Table = ({ quizzes }) => {
                   <td
                     key={index}
                     {...cell.getCellProps()}
-                    className="px-6 py-4 whitespace-nowrap"
+                    className="px-6 py-4 whitespace-nowrap text-gray-700"
                   >
                     {cell.render("Cell")}
                   </td>
