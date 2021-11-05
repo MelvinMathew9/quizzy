@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { PageLoader } from "neetoui";
 import { either, isEmpty, isNil } from "ramda";
 import { Toaster } from "react-hot-toast";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
@@ -12,6 +13,7 @@ import PrivateRoute from "./components/Common/PrivateRoute";
 import Topbar from "./components/Common/Topbar";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import CreateQuiz from "./components/Quiz/CreateQuiz";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -24,15 +26,20 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
   }
 
   return (
     <Router>
       <Toaster position="bottom-center" />
-      <Topbar />
+      <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/quiz/create" component={CreateQuiz} />
         <PrivateRoute
           path="/"
           redirectRoute="/login"
