@@ -12,10 +12,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const handleSubmit = async event => {
     event.preventDefault();
     try {
+      setLoading(true);
       const response = await authApi.login({ login: { email, password } });
       toast.success("Logged in successfully");
       setToLocalStorage({
@@ -26,6 +26,7 @@ const Login = () => {
       });
       setAuthHeaders();
       setLoading(false);
+      window.location.href = "/";
     } catch (error) {
       setLoading(false);
     }

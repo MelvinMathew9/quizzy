@@ -24,7 +24,12 @@ const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
             required={true}
             onChange={e => setPassword(e.target.value)}
           />
-          <Button type="submit" label="submit" loading={loading} />
+          <Button
+            type="submit"
+            label="Submit"
+            fullWidth={true}
+            loading={loading}
+          />
         </form>
       </div>
     </div>
