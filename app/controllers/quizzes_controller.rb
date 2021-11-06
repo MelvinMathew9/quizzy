@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
 class QuizzesController < ApplicationController
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
   before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[show update destroy]
 
   def index
-    @quizzes = Quiz.all
+    @quizzes = policy_scope(Quiz)
     render status: :ok, json: { quizzes: @quizzes }
-  end
+   end
 
   def create
     @quiz = Quiz.new(quiz_params)
+    authorize @quiz
     if @quiz.save
       render status: :ok,
         json: { notice: t("quiz.successfully_created") }
@@ -21,10 +24,13 @@ class QuizzesController < ApplicationController
   end
 
   def show
+    authorize @quiz
     render status: :ok, json: { quiz: @quiz }
   end
 
   def update
+    authorize @quiz
+
     if @quiz.update(quiz_params)
       render status: :ok, json: { notice: t("quiz.successfully_updated") }
     else
@@ -34,6 +40,8 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
+    authorize @quiz
+
     if @quiz.destroy
       render status: :ok, json: { notice: t("quiz.successfully_deleted") }
     else
