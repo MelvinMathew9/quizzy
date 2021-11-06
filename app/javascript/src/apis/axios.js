@@ -24,10 +24,8 @@ const setAuthHeaders = (setLoading = () => null) => {
 };
 
 const handleSuccessResponse = response => {
-  if (response) {
-    if (response.data.notice) {
-      toast.success(response.data.notice);
-    }
+  if (response?.data?.notice) {
+    toast.success(response?.data?.notice);
   }
 
   return response;
@@ -37,10 +35,12 @@ const handleErrorResponse = axiosErrorObject => {
   toast.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
+  //The 401 Unauthorized status code means unauthorized
   if (axiosErrorObject.response?.status === 401) {
     localStorage.clear();
   }
 
+  //The 423 (Locked) status code means the source or destination resource of a method is locked.
   if (axiosErrorObject.response?.status === 423) {
     window.location.href = "/";
   }
