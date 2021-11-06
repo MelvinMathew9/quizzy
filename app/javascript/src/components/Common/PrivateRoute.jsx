@@ -11,14 +11,8 @@ const PrivateRoute = ({
   ...props
 }) => {
   if (!condition) {
-    return (
-      <Redirect
-        to={{
-          pathname: redirectRoute,
-          from: props.location,
-        }}
-      />
-    );
+    const path = { pathname: redirectRoute, from: props.location };
+    return <Redirect to={path} />;
   }
 
   return <Route path={path} component={Component} {...props} />;

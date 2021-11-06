@@ -49,9 +49,7 @@ const handleErrorResponse = axiosErrorObject => {
 };
 
 const registerIntercepts = () => {
-  axios.interceptors.response.use(handleSuccessResponse, error =>
-    handleErrorResponse(error)
-  );
+  axios.interceptors.response.use(handleSuccessResponse, handleErrorResponse);
 };
 
 const resetAuthTokens = () => {
