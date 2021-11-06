@@ -4,6 +4,8 @@ import { Highlight, Delete } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { useTable } from "react-table";
 
+import { COLUMNS } from "./constants";
+
 const Table = ({ quizzes, setShowModal, setQuiz }) => {
   const handleDelete = quiz => {
     setQuiz(quiz);
@@ -13,23 +15,27 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
     () => [
       ...quizzes.map(quiz => {
         return {
-          col1: <Typography style="body1"> {quiz.title}</Typography>,
-          col2: (
-            <div className="flex space-x-2 justify-end">
-              <Button
-                style="secondary"
-                icon={Highlight}
-                to={`/quizzes/${quiz?.slug}/edit`}
-                iconPosition="left"
-                label="Edit"
-              ></Button>
-              <Button
-                style="primary"
-                icon={Delete}
-                onClick={() => handleDelete(quiz)}
-                iconPosition="left"
-                label="Delete"
-              ></Button>
+          col1: (
+            <div className="flex">
+              <Typography style="body1" className="flex-grow">
+                {quiz.title}
+              </Typography>
+              <div className="flex space-x-2 justify-end">
+                <Button
+                  style="secondary"
+                  icon={Highlight}
+                  to={`/quizzes/${quiz?.slug}/edit`}
+                  iconPosition="left"
+                  label="Edit"
+                ></Button>
+                <Button
+                  style="primary"
+                  icon={Delete}
+                  onClick={() => handleDelete(quiz)}
+                  iconPosition="left"
+                  label="Delete"
+                ></Button>
+              </div>
             </div>
           ),
         };
@@ -38,18 +44,7 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
     [quizzes]
   );
 
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Quiz name",
-        accessor: "col1",
-      },
-      {
-        accessor: "col2",
-      },
-    ],
-    []
-  );
+  const columns = React.useMemo(() => COLUMNS, []);
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
