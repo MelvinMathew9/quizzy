@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Typography, Input, Button } from "neetoui";
 import toast from "react-hot-toast";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import quizApi from "../../apis/quiz";
 import { getFromLocalStorage } from "../../helpers/storage";
 import Container from "../Conatiner";
 
-const CreateQuiz = () => {
+const EditQuiz = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const { slug } = useParams();
+  const fetchQuizzes = async () => {
+    try {
+      const response = await quizApi.show(slug);
+      setTitle(response.data.quiz.title);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -20,7 +34,7 @@ const CreateQuiz = () => {
     } else {
       try {
         setLoading(true);
-        await quizApi.create({
+        await quizApi.update(slug, {
           quiz: { title, user_id: getFromLocalStorage("authUserId") },
         });
         setLoading(false);
@@ -34,9 +48,10 @@ const CreateQuiz = () => {
   return (
     <Container>
       <div className="max-w-lg mx-auto py-10 px-4 space-y-4">
-        <Typography style="h3">Add Quiz</Typography>
+        <Typography style="h3">Edit Quiz</Typography>
         <Input
           label="Quiz name"
+          value={title}
           onChange={e => setTitle(e.target.value)}
           placeholder="Enter Name"
         />
@@ -52,4 +67,4 @@ const CreateQuiz = () => {
   );
 };
 
-export default CreateQuiz;
+export default EditQuiz;

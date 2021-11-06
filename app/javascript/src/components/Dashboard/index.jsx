@@ -6,11 +6,13 @@ import { all, isNil, isEmpty, either } from "ramda";
 import { useHistory } from "react-router";
 
 import quizApi from "../../apis/quiz";
+import Quiz from "../Quiz";
 
 const Dashboard = () => {
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+
   const fetchQuizzes = async () => {
     try {
       const response = await quizApi.fetch();
@@ -34,27 +36,27 @@ const Dashboard = () => {
     );
   }
 
-  if (all(either(isNil, isEmpty), [quizzes])) {
-    return (
-      <div className="flex flex-col w-full py-4 md:px-5 px-4">
-        <Button
-          label="Add new quiz"
-          onClick={() => history.push("/quiz/create")}
-          iconPosition="left"
-          icon={() => <Plus size={18} />}
-          className="md:self-end self-center"
-        />
+  return (
+    <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-6">
+      <Button
+        label="Add new quiz"
+        onClick={() => history.push("/quizzes/create")}
+        iconPosition="left"
+        icon={() => <Plus size={18} />}
+        className="md:self-end self-center"
+      />
+      {all(either(isNil, isEmpty), [quizzes]) ? (
         <Typography
           style="h3"
           className="mt-24 neeto-ui-text-gray-300 self-center"
         >
           You have not created any quiz
         </Typography>
-      </div>
-    );
-  }
-
-  return <></>;
+      ) : (
+        <Quiz data={quizzes} setData={setQuizzes} />
+      )}
+    </div>
+  );
 };
 
 export default Dashboard;
