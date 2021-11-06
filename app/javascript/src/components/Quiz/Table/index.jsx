@@ -4,7 +4,11 @@ import { Highlight, Delete } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { useTable } from "react-table";
 
-const Table = ({ quizzes }) => {
+const Table = ({ quizzes, setShowModal, setQuiz }) => {
+  const handleDelete = quiz => {
+    setQuiz(quiz);
+    setShowModal(true);
+  };
   const data = React.useMemo(
     () => [
       ...quizzes.map(quiz => {
@@ -22,6 +26,7 @@ const Table = ({ quizzes }) => {
               <Button
                 style="primary"
                 icon={Delete}
+                onClick={() => handleDelete(quiz)}
                 iconPosition="left"
                 label="Delete"
               ></Button>

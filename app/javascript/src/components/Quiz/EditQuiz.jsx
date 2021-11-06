@@ -48,16 +48,16 @@ const EditQuiz = () => {
   return (
     <Container>
       <div className="max-w-lg mx-auto py-10 px-4 space-y-4">
-        <Typography style="h3">Add new Quiz</Typography>
+        <Typography style="h3">Edit Quiz</Typography>
         <Input
           label="Quiz name"
-          required={true}
           value={title}
           onChange={e => setTitle(e.target.value)}
           placeholder="Enter Name"
         />
         <Button
           label="Submit"
+          size="large"
           onClick={handleSubmit}
           loading={loading}
           fullWidth={true}
