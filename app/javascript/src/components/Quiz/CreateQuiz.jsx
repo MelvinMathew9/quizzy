@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { LeftArrowCircle } from "neetoicons";
 import { Typography, Input, Button } from "neetoui";
 import toast from "react-hot-toast";
 import { useHistory } from "react-router";
@@ -23,10 +24,10 @@ const CreateQuiz = () => {
         await quizApi.create({
           quiz: { title, user_id: getFromLocalStorage("authUserId") },
         });
-        setLoading(false);
         history.push("/dashboard");
       } catch (error) {
         logger.error(error);
+      } finally {
         setLoading(false);
       }
     }
@@ -34,7 +35,21 @@ const CreateQuiz = () => {
   return (
     <Container>
       <div className="max-w-lg mx-auto py-10 px-4 space-y-4">
-        <Typography style="h3">Add Quiz</Typography>
+        <div className="flex">
+          <Typography style="h3" className="flex-grow">
+            Add Quiz
+          </Typography>
+          <Button
+            iconPosition="left"
+            style="text"
+            onClick={() => history.push("/dashboard")}
+            tooltipProps={{
+              content: "Go Bak",
+              position: "right",
+            }}
+            icon={() => <LeftArrowCircle size={20} />}
+          />
+        </div>
         <Input
           label="Quiz name"
           onChange={e => setTitle(e.target.value)}
