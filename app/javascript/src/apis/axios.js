@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-import { getFromLocalStorage, setToLocalStorage } from "helpers/storage.js";
+import { getFromLocalStorage } from "helpers/storage.js";
 
 axios.defaults.baseURL = "/";
 const DEFAULT_ERROR_NOTIFICATION = "Something went wrong!";
@@ -25,7 +25,6 @@ const setAuthHeaders = (setLoading = () => null) => {
 
 const handleSuccessResponse = response => {
   if (response) {
-    response.success = response.status === 200;
     if (response.data.notice) {
       toast.success(response.data.notice);
     }
@@ -39,12 +38,7 @@ const handleErrorResponse = axiosErrorObject => {
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
   if (axiosErrorObject.response?.status === 401) {
-    setToLocalStorage({
-      authToken: null,
-      authUserId: null,
-      authEmail: null,
-      userName: null,
-    });
+    localStorage.clear();
   }
 
   if (axiosErrorObject.response?.status === 423) {

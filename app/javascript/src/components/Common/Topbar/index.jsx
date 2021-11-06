@@ -4,18 +4,13 @@ import { Typography, Button } from "neetoui";
 
 import authApi from "apis/auth";
 import { resetAuthTokens } from "apis/axios";
-import { getFromLocalStorage, setToLocalStorage } from "helpers/storage";
+import { getFromLocalStorage } from "helpers/storage";
 
 const Topbar = ({ isLoggedIn }) => {
   const handleLogout = async () => {
     try {
       await authApi.logout();
-      setToLocalStorage({
-        authToken: null,
-        authUserId: null,
-        authEmail: null,
-        userName: null,
-      });
+      localStorage.clear();
       resetAuthTokens();
       window.location.href = "/";
     } catch (error) {
