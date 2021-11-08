@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Highlight, Delete } from "neetoicons";
-import { Typography, Button } from "neetoui";
+import { Button } from "neetoui";
 import { useTable } from "react-table";
 
 import { COLUMNS } from "./constants";
@@ -17,9 +17,12 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
         return {
           col1: (
             <div className="flex">
-              <Typography style="body1" className="flex-grow">
-                {quiz.title}
-              </Typography>
+              <Button
+                style="link"
+                to={`/quizzes/questions/${quiz.slug}`}
+                label={quiz.title}
+                className="flex-grow"
+              />
               <div className="flex space-x-2 justify-end">
                 <Button
                   style="secondary"
