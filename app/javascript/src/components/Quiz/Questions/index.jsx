@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
 
@@ -10,7 +10,7 @@ const Questions = () => {
   const [quiz, setQuiz] = useState([]);
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
-
+  const history = useHistory();
   const fetchQuiz = async () => {
     try {
       const response = await quizApi.show(slug);
@@ -41,7 +41,7 @@ const Questions = () => {
       </Typography>
       <Button
         label="Add questions"
-        //onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
+        onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
         iconPosition="left"
         icon={() => <Plus size={18} />}
         className="md:self-end self-center"
