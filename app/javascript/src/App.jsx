@@ -15,7 +15,8 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import CreateQuiz from "./components/Quiz/CreateQuiz";
 import EditQuiz from "./components/Quiz/EditQuiz";
-import Questions from "./components/Quiz/Questions";
+import Questions from "./Questions";
+import CreateQuestion from "./Questions/CreateQuestion";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -44,6 +45,11 @@ const App = () => {
         <Route exact path="/quizzes/create" component={CreateQuiz} />
         <Route exact path="/quizzes/:slug/edit" component={EditQuiz} />
         <Route exact path="/quizzes/questions/:slug" component={Questions} />
+        <Route
+          exact
+          path="/quizzes/questions/:slug/create"
+          component={CreateQuestion}
+        />
         <PrivateRoute
           path="/"
           redirectRoute="/login"
