@@ -4,10 +4,13 @@ import { Formik, Form, FieldArray } from "formik";
 import { Plus, Minus } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
+import toast from "react-hot-toast";
 import { useParams } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
+
+import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "./constants";
 
 import Container from "../../Conatiner";
 
@@ -26,34 +29,36 @@ const CreateQuestion = () => {
   useEffect(() => {
     fetchQuiz();
   }, []);
+
   const handleSubmit = async values => {
-    try {
-      await questionApi.create({
-        questions: {
-          question: values.question,
-          quiz_id: id,
-          list: values.options.map(option => {
-            return {
-              content: option,
-              is_answer: option === values?.answer?.value,
-            };
-          }),
-        },
-      });
-    } catch (error) {
-      logger.error(error);
+    if (values.options.includes(values?.answer?.value)) {
+      try {
+        await questionApi.create({
+          questions: {
+            question: values.question,
+            quiz_id: id,
+            list: values.options.map(option => {
+              return {
+                content: option,
+                is_answer: option === values?.answer?.value,
+              };
+            }),
+          },
+        });
+      } catch (error) {
+        logger.error(error);
+      }
+    } else {
+      toast.error("Invalid option");
     }
   };
   return (
     <Container>
       <div className="neeto-ui-shadow-s m-4 p-6">
         <Formik
-          initialValues={{
-            answer: "",
-            question: "",
-            options: ["", ""],
-          }}
+          initialValues={FORM_INITIAL_VALUES}
           onSubmit={handleSubmit}
+          validationSchema={FORM_VALIDATIONS}
         >
           {({ values, isSubmitting }) => (
             <div className="space-y-4 flex flex-col">
@@ -116,6 +121,7 @@ const CreateQuestion = () => {
                 />
 
                 <Select
+                  label="Answer"
                   name="answer"
                   options={values.options.map(option => {
                     return { label: option, value: option };
