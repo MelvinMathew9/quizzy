@@ -9,6 +9,7 @@ class Quiz < ApplicationRecord
   validate :slug_not_changed
   before_create :set_slug
   belongs_to :user
+  has_many :questions, dependent: :destroy
 
   private
 

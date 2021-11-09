@@ -15,8 +15,8 @@ import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
 import CreateQuiz from "./components/Quiz/CreateQuiz";
 import EditQuiz from "./components/Quiz/EditQuiz";
-import Questions from "./Questions";
-import CreateQuestion from "./Questions/CreateQuestion";
+import Questions from "./components/Quiz/Questions";
+import CreateQuestion from "./components/Quiz/Questions/CreateQuestion";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
