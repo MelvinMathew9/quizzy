@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
-import { Plus, Minus } from "neetoicons";
+import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
@@ -52,9 +52,10 @@ const CreateQuestion = () => {
       toast.error("Invalid option");
     }
   };
+
   return (
     <Container>
-      <div className="neeto-ui-shadow-s m-4 p-6">
+      <div className="max-w-lg mx-auto py-10 neeto-ui-shadow-xs px-4 space-y-4">
         <Formik
           initialValues={FORM_INITIAL_VALUES}
           onSubmit={handleSubmit}
@@ -62,9 +63,21 @@ const CreateQuestion = () => {
         >
           {({ values, isSubmitting }) => (
             <div className="space-y-4 flex flex-col">
-              <Typography style="h3" className="self-center">
-                Add New Question
-              </Typography>
+              <div className="flex">
+                <Typography style="h3" className="flex-grow">
+                  Add New Question
+                </Typography>
+                <Button
+                  iconPosition="left"
+                  style="text"
+                  tooltipProps={{
+                    content: "Go Bak",
+                    position: "right",
+                  }}
+                  to={`/quizzes/questions/${slug}`}
+                  icon={() => <LeftArrowCircle size={20} />}
+                />
+              </div>
               <Textarea
                 label="Question"
                 placeholder="Add question"
@@ -129,20 +142,14 @@ const CreateQuestion = () => {
                   placeholder="Select correct option"
                 />
 
-                <div className="flex space-x-2">
-                  <Button
-                    type="submit"
-                    label="Submit"
-                    loading={isSubmitting}
-                    size="small"
-                    disabled={isSubmitting}
-                  />
-                  <Button
-                    label="Go back"
-                    to={`/quizzes/questions/${slug}`}
-                    style="secondary"
-                  />
-                </div>
+                <Button
+                  type="submit"
+                  label="Submit"
+                  loading={isSubmitting}
+                  size="large"
+                  fullWidth={true}
+                  disabled={isSubmitting}
+                />
               </Form>
             </div>
           )}
