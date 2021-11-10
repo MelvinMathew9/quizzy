@@ -4,8 +4,12 @@ import { Highlight, Delete, CheckCircle } from "neetoicons";
 import { Button, Typography, Tag } from "neetoui";
 import { useParams } from "react-router";
 
-const Show = ({ data, index }) => {
+const Show = ({ data, index, setShowModal, setQuestion }) => {
   const { slug } = useParams();
+  const handleDelete = question => {
+    setQuestion(question);
+    setShowModal(true);
+  };
   return (
     <div className="neeto-ui-shadow-xs my-2">
       <Tag
@@ -29,6 +33,7 @@ const Show = ({ data, index }) => {
             style="primary"
             icon={Delete}
             iconPosition="left"
+            onClick={() => handleDelete(data)}
             label="Delete"
           ></Button>
         </div>

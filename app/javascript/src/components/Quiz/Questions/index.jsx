@@ -8,12 +8,17 @@ import quizApi from "apis/quiz";
 
 import Show from "./Show";
 
+import DeleteModal from "../Common/DeleteModal";
+
 const Questions = () => {
   const [quiz, setQuiz] = useState([]);
+  const [question, setQuestion] = useState({});
 
+  const [modal, setShowModal] = useState(false);
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+
   const fetchQuiz = async () => {
     try {
       const quizResponse = await quizApi.show(slug);
@@ -54,7 +59,13 @@ const Questions = () => {
 
       {quiz.questions.length ? (
         quiz.questions.map((question, index) => (
-          <Show key={index} data={question} index={index} />
+          <Show
+            key={index}
+            data={question}
+            index={index}
+            setShowModal={setShowModal}
+            setQuestion={setQuestion}
+          />
         ))
       ) : (
         <Typography
@@ -63,6 +74,14 @@ const Questions = () => {
         >
           You have not created any questions
         </Typography>
+      )}
+      {modal && (
+        <DeleteModal
+          setShowModal={setShowModal}
+          data={question}
+          refetch={fetchQuiz}
+          type="Question"
+        />
       )}
     </div>
   );

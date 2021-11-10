@@ -5,7 +5,7 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
@@ -16,7 +16,7 @@ import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 const Create = () => {
   const [id, setId] = useState(null);
   const { slug } = useParams();
-
+  const history = useHistory();
   const fetchQuiz = async () => {
     try {
       const response = await quizApi.show(slug);
@@ -44,6 +44,7 @@ const Create = () => {
             }),
           },
         });
+        history.push(`/quizzes/questions/${slug}`);
       } catch (error) {
         logger.error(error);
       }

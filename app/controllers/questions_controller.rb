@@ -2,7 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :load_quiz, only: %i[create update]
-  before_action :load_question, only: :update
+  before_action :load_question, only: %i[destroy update]
 
   def create
     question = @quiz.questions.new({ question: question_params[:question], quiz_id: question_params[:quiz_id] })
@@ -26,6 +26,15 @@ class QuestionsController < ApplicationController
         option.save
       end
       render status: :ok, json: { notice: t("question.successfully_updated") }
+    else
+      render status: :unprocessable_entity,
+        json: { errors: @question.errors.full_messages.to_sentence }
+    end
+  end
+
+  def destroy
+    if @question.destroy
+      render status: :ok, json: { notice: t("question.successfully_deleted") }
     else
       render status: :unprocessable_entity,
         json: { errors: @question.errors.full_messages.to_sentence }

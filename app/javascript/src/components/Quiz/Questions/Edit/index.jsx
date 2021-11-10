@@ -5,7 +5,7 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
@@ -16,6 +16,7 @@ import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 const Edit = () => {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState(null);
+  const history = useHistory();
   const { slug, id } = useParams();
   let defaultValues = FORM_INITIAL_VALUES;
   let data = quiz ? quiz.questions.find(q => q.id == id) : {};
@@ -61,6 +62,7 @@ const Edit = () => {
             }),
           },
         });
+        history.push(`/quizzes/questions/${slug}`);
       } catch (error) {
         logger.error(error);
       }
