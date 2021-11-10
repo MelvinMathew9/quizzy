@@ -2,8 +2,10 @@ import React from "react";
 
 import { Highlight, Delete, CheckCircle } from "neetoicons";
 import { Button, Typography, Tag } from "neetoui";
+import { useParams } from "react-router";
 
 const Show = ({ data, index }) => {
+  const { slug } = useParams();
   return (
     <div className="neeto-ui-shadow-xs my-2">
       <Tag
@@ -20,6 +22,7 @@ const Show = ({ data, index }) => {
             style="secondary"
             icon={Highlight}
             iconPosition="left"
+            to={`/quizzes/questions/${slug}/${data.id}/edit`}
             label="Edit"
           ></Button>
           <Button

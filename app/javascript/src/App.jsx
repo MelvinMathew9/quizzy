@@ -17,6 +17,7 @@ import CreateQuiz from "./components/Quiz/Create";
 import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
+import EditQuestion from "./components/Quiz/Questions/Edit";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,11 @@ const App = () => {
           exact
           path="/quizzes/questions/:slug/create"
           component={CreateQuestion}
+        />
+        <Route
+          exact
+          path="/quizzes/questions/:slug/:id/edit"
+          component={EditQuestion}
         />
         <PrivateRoute
           path="/"

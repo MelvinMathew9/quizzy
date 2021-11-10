@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
 import { Plus, Minus, LeftArrowCircle } from "neetoicons";
-import { Typography, Button } from "neetoui";
+import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
 import { useParams } from "react-router";
@@ -13,16 +13,33 @@ import quizApi from "apis/quiz";
 import Container from "../../../Common/Conatiner";
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
-const Create = () => {
-  const [id, setId] = useState(null);
-  const { slug } = useParams();
-
+const Edit = () => {
+  const [loading, setLoading] = useState(false);
+  const [quiz, setQuiz] = useState(null);
+  const { slug, id } = useParams();
+  let defaultValues = FORM_INITIAL_VALUES;
+  let data = quiz ? quiz.questions.find(q => q.id == id) : {};
+  defaultValues = {
+    answer: data?.options
+      ? {
+          label: data?.options.find(option => option.is_answer).content,
+          value: data?.options.find(option => option.is_answer).content,
+        }
+      : "",
+    question: data?.question ? data?.question : "",
+    options: data?.options
+      ? data?.options.map(option => option.content)
+      : ["", ""],
+  };
   const fetchQuiz = async () => {
     try {
+      setLoading(true);
       const response = await quizApi.show(slug);
-      setId(response.data.quiz.id);
+      setQuiz(response.data.quiz);
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -32,11 +49,11 @@ const Create = () => {
   const handleSubmit = async values => {
     if (values.options.includes(values?.answer?.value)) {
       try {
-        await questionApi.create({
+        await questionApi.update(id, {
           questions: {
-            question: values.question,
-            quiz_id: id,
-            list: values.options.map(option => {
+            question: values?.question,
+            quiz_id: quiz.id,
+            list: values?.options?.map(option => {
               return {
                 content: option,
                 is_answer: option === values?.answer?.value,
@@ -51,12 +68,19 @@ const Create = () => {
       toast.error("Invalid option");
     }
   };
+  if (loading) {
+    return (
+      <div className="w-screen h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <Container>
       <div className="max-w-lg mx-auto py-10 neeto-ui-shadow-xs px-4 space-y-4">
         <Formik
-          initialValues={FORM_INITIAL_VALUES}
+          initialValues={defaultValues}
           onSubmit={handleSubmit}
           validationSchema={FORM_VALIDATIONS}
         >
@@ -87,7 +111,7 @@ const Create = () => {
                   name="options"
                   render={arrayHelpers => (
                     <div className="space-y-4">
-                      {values.options.map((_, index) => {
+                      {values?.options?.map((_, index) => {
                         if (index < 2) {
                           return (
                             <Input
@@ -118,7 +142,7 @@ const Create = () => {
                           </div>
                         );
                       })}
-                      {values.options.length < 4 && (
+                      {values?.options?.length < 4 && (
                         <Button
                           iconPosition="left"
                           label="Add option"
@@ -135,7 +159,7 @@ const Create = () => {
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values.options.map(option => {
+                  options={values?.options?.map(option => {
                     return { label: option, value: option };
                   })}
                   placeholder="Select correct option"
@@ -158,4 +182,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default Edit;
