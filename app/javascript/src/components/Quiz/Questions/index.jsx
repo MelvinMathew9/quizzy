@@ -8,13 +8,14 @@ import quizApi from "apis/quiz";
 
 const Questions = () => {
   const [quiz, setQuiz] = useState([]);
+
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  const fetchQuiz = async () => {
+  const fetchQuestions = async () => {
     try {
-      const response = await quizApi.show(slug);
-      setQuiz(response.data.quiz);
+      const quizResponse = await quizApi.show(slug);
+      setQuiz(quizResponse?.data?.quiz);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -23,7 +24,7 @@ const Questions = () => {
   };
 
   useEffect(() => {
-    fetchQuiz();
+    fetchQuestions();
   }, []);
 
   if (loading) {
@@ -54,6 +55,7 @@ const Questions = () => {
       >
         You have not created any questions
       </Typography>
+      <pre>{JSON.stringify(quiz, null, 2)}</pre>
     </div>
   );
 };

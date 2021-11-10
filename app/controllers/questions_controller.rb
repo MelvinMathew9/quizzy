@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :load_quiz
+  before_action :load_quiz, only: %i[:create]
 
   def create
     question = @quiz.questions.new({ question: question_params[:question], quiz_id: question_params[:quiz_id] })
