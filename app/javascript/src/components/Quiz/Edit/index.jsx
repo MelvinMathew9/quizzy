@@ -5,11 +5,12 @@ import { Typography, Input, Button } from "neetoui";
 import toast from "react-hot-toast";
 import { useHistory, useParams } from "react-router";
 
-import quizApi from "../../apis/quiz";
-import { getFromLocalStorage } from "../../helpers/storage";
-import Container from "../Conatiner";
+import quizApi from "apis/quiz";
+import { getFromLocalStorage } from "helpers/storage";
 
-const EditQuiz = () => {
+import Container from "../../Common/Conatiner";
+
+const Edit = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -82,4 +83,4 @@ const EditQuiz = () => {
   );
 };
 
-export default EditQuiz;
+export default Edit;

@@ -36,16 +36,18 @@ const Questions = () => {
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4">
-      <Typography style="h2" className="flex-grow text-gray-700">
-        {quiz.title}
-      </Typography>
-      <Button
-        label="Add questions"
-        onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
-        iconPosition="left"
-        icon={() => <Plus size={18} />}
-        className="md:self-end self-center"
-      />
+      <div className="flex">
+        <Typography style="h2" className="flex-grow text-gray-700">
+          {quiz.title}
+        </Typography>
+        <Button
+          label="Add questions"
+          onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
+          iconPosition="left"
+          icon={() => <Plus size={18} />}
+          className="md:self-end self-center"
+        />
+      </div>
       <Typography
         style="h3"
         className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
