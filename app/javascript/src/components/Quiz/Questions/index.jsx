@@ -6,13 +6,15 @@ import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
 
+import Show from "./Show";
+
 const Questions = () => {
   const [quiz, setQuiz] = useState([]);
 
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  const fetchQuestions = async () => {
+  const fetchQuiz = async () => {
     try {
       const quizResponse = await quizApi.show(slug);
       setQuiz(quizResponse?.data?.quiz);
@@ -24,7 +26,7 @@ const Questions = () => {
   };
 
   useEffect(() => {
-    fetchQuestions();
+    fetchQuiz();
   }, []);
 
   if (loading) {
@@ -49,13 +51,19 @@ const Questions = () => {
           className="md:self-end self-center"
         />
       </div>
-      <Typography
-        style="h3"
-        className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
-      >
-        You have not created any questions
-      </Typography>
-      <pre>{JSON.stringify(quiz, null, 2)}</pre>
+
+      {quiz.questions.length ? (
+        quiz.questions.map((question, index) => (
+          <Show key={index} data={question} index={index} />
+        ))
+      ) : (
+        <Typography
+          style="h3"
+          className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
+        >
+          You have not created any questions
+        </Typography>
+      )}
     </div>
   );
 };

@@ -48,7 +48,7 @@ const Dashboard = () => {
       {all(either(isNil, isEmpty), [quizzes]) ? (
         <Typography
           style="h3"
-          className="mt-24 neeto-ui-text-gray-300 self-center"
+          className="mt-16 md:mt-40  neeto-ui-text-gray-300 self-center"
         >
           You have not created any quiz
         </Typography>

@@ -12,6 +12,4 @@ json.quiz do
        :question,
        :options
    end
-
-  json.options @options
 end

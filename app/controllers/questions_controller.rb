@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :load_quiz, only: %i[:create]
+  before_action :load_quiz, only: :create
 
   def create
     question = @quiz.questions.new({ question: question_params[:question], quiz_id: question_params[:quiz_id] })
@@ -25,6 +25,7 @@ class QuestionsController < ApplicationController
 
     def load_quiz
       @quiz = Quiz.find(question_params[:quiz_id])
+      puts @quiz
       rescue ActiveRecord::RecordNotFound => e
         render json: { errors: e }, status: :not_found
     end
