@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "./Common/DeleteModal";
 import Table from "./Table";
 
 import quizApi from "../../apis/quiz";
@@ -24,8 +24,9 @@ const Quiz = ({ data, setData }) => {
       {modal && (
         <DeleteModal
           setShowModal={setShowModal}
-          quiz={quiz}
+          data={quiz}
           refetch={fetchQuizzes}
+          type="Quiz"
         />
       )}
     </>

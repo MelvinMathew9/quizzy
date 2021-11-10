@@ -6,15 +6,23 @@ import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
 
+import Show from "./Show";
+
+import DeleteModal from "../Common/DeleteModal";
+
 const Questions = () => {
   const [quiz, setQuiz] = useState([]);
+  const [question, setQuestion] = useState({});
+
+  const [modal, setShowModal] = useState(false);
   const { slug } = useParams();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+
   const fetchQuiz = async () => {
     try {
-      const response = await quizApi.show(slug);
-      setQuiz(response.data.quiz);
+      const quizResponse = await quizApi.show(slug);
+      setQuiz(quizResponse?.data?.quiz);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -36,22 +44,50 @@ const Questions = () => {
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4">
-      <Typography style="h2" className="flex-grow text-gray-700">
-        {quiz.title}
-      </Typography>
-      <Button
-        label="Add questions"
-        onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
-        iconPosition="left"
-        icon={() => <Plus size={18} />}
-        className="md:self-end self-center"
-      />
-      <Typography
-        style="h3"
-        className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
-      >
-        You have not created any questions
-      </Typography>
+      <div className="flex space-x-2">
+        <Typography style="h2" className="flex-grow text-gray-700">
+          {quiz.title}
+        </Typography>
+        <Button
+          label="Add questions"
+          onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
+          iconPosition="left"
+          icon={() => <Plus size={18} />}
+          className="md:self-end self-center"
+        />
+        {quiz.questions.length ? (
+          <Button label="Publish" className="md:self-end self-center" />
+        ) : (
+          ""
+        )}
+      </div>
+
+      {quiz.questions.length ? (
+        quiz.questions.map((question, index) => (
+          <Show
+            key={index}
+            data={question}
+            index={index}
+            setShowModal={setShowModal}
+            setQuestion={setQuestion}
+          />
+        ))
+      ) : (
+        <Typography
+          style="h3"
+          className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
+        >
+          You have not created any questions
+        </Typography>
+      )}
+      {modal && (
+        <DeleteModal
+          setShowModal={setShowModal}
+          data={question}
+          refetch={fetchQuiz}
+          type="Question"
+        />
+      )}
     </div>
   );
 };

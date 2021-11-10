@@ -25,7 +25,7 @@ class QuizzesController < ApplicationController
 
   def show
     authorize @quiz
-    render status: :ok, json: { quiz: @quiz }
+    @questions = @quiz.questions.map { |q| { id: q.id, question: q.question, options: q.options } }
   end
 
   def update

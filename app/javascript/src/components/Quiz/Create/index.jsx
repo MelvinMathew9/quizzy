@@ -5,11 +5,12 @@ import { Typography, Input, Button } from "neetoui";
 import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
-import quizApi from "../../apis/quiz";
-import { getFromLocalStorage } from "../../helpers/storage";
-import Container from "../Conatiner";
+import quizApi from "apis/quiz";
+import { getFromLocalStorage } from "helpers/storage";
 
-const CreateQuiz = () => {
+import Container from "../../Common/Conatiner";
+
+const Create = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -67,4 +68,4 @@ const CreateQuiz = () => {
   );
 };
 
-export default CreateQuiz;
+export default Create;
