@@ -44,7 +44,7 @@ const Questions = () => {
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4">
-      <div className="flex">
+      <div className="flex space-x-2">
         <Typography style="h2" className="flex-grow text-gray-700">
           {quiz.title}
         </Typography>
@@ -55,6 +55,11 @@ const Questions = () => {
           icon={() => <Plus size={18} />}
           className="md:self-end self-center"
         />
+        {quiz.questions.length ? (
+          <Button label="Publish" className="md:self-end self-center" />
+        ) : (
+          ""
+        )}
       </div>
 
       {quiz.questions.length ? (
