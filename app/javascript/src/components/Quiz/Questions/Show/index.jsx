@@ -11,7 +11,7 @@ const Show = ({ data, index, setShowModal, setQuestion }) => {
     setShowModal(true);
   };
   return (
-    <div className="neeto-ui-shadow-xs my-2">
+    <div className="neeto-ui-shadow-s my-2">
       <Tag
         indicatorColor="gray"
         label={`Question ${index + 1}`}

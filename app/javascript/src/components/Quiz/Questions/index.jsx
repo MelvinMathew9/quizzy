@@ -13,10 +13,10 @@ import DeleteModal from "../Common/DeleteModal";
 const Questions = () => {
   const [quiz, setQuiz] = useState([]);
   const [question, setQuestion] = useState({});
-
-  const [modal, setShowModal] = useState(false);
-  const { quiz_id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [modal, setShowModal] = useState(false);
+  const [publish, setPublish] = useState(false);
+  const { quiz_id } = useParams();
   const history = useHistory();
 
   const fetchQuiz = async () => {
@@ -32,14 +32,12 @@ const Questions = () => {
 
   const handlePublish = async () => {
     try {
-      setLoading(true);
       await quizApi.update(quiz_id, {
         publish: true,
       });
+      setPublish(true);
     } catch (error) {
       logger.error(error);
-    } finally {
-      setLoading(false);
     }
   };
   useEffect(() => {
@@ -55,11 +53,12 @@ const Questions = () => {
   }
 
   return (
-    <div className="flex flex-col w-full py-4 md:px-5 px-4">
+    <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-2">
       <div className="flex space-x-2">
         <Typography style="h2" className="flex-grow text-gray-700">
           {quiz.title}
         </Typography>
+
         <Button
           label="Add questions"
           onClick={() => history.push(`/quizzes/${quiz_id}/questions/create`)}
@@ -69,16 +68,27 @@ const Questions = () => {
         />
         {quiz.questions.length ? (
           <Button
-            label="Publish"
+            label={quiz?.slug || publish ? "Published" : "publish"}
             onClick={handlePublish}
-            loading={loading}
+            disabled={quiz?.slug || publish ? true : false}
             className="md:self-end self-center"
           />
         ) : (
           ""
         )}
       </div>
-
+      {(quiz?.slug || publish) && (
+        <div className="self-end">
+          Public URL:
+          <Button
+            style="link"
+            label={`${window.location.origin}/public/${quiz.slug}`}
+            onClick={() =>
+              (window.location.href = `${window.location.origin}/public/${quiz.slug}`)
+            }
+          />
+        </div>
+      )}
       {quiz.questions.length ? (
         quiz.questions.map((question, index) => (
           <Show
