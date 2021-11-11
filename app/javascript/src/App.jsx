@@ -18,6 +18,7 @@ import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
 import EditQuestion from "./components/Quiz/Questions/Edit";
+import Submission from "./components/Submission";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ const App = () => {
       <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/public/:slug" component={Submission} />
         <PrivateRoute
           exact
           path="/quizzes/create"
