@@ -42,7 +42,7 @@ const Questions = () => {
   };
   useEffect(() => {
     fetchQuiz();
-  }, []);
+  }, [publish]);
 
   if (loading) {
     return (

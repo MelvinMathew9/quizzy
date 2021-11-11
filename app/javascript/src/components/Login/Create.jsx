@@ -29,6 +29,7 @@ const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
             label="Submit"
             fullWidth={true}
             loading={loading}
+            disabled={loading}
           />
         </form>
       </div>
