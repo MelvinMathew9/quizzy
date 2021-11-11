@@ -10,7 +10,7 @@ const DeleteModal = ({ setShowModal, data, refetch, type }) => {
   const handleDelete = async () => {
     try {
       type == "Quiz"
-        ? await quizApi.destroy(data.slug)
+        ? await quizApi.destroy(data.id)
         : await questionApi.destroy(data.id);
       await refetch();
     } catch (error) {

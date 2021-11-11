@@ -5,34 +5,23 @@ class Quiz < ApplicationRecord
   DB_REGEX_OPERATOR = is_sqlite_db ? "REGEXP" : "~*".freeze
 
   validates :title, presence: true, length: { maximum: 250 }
-  validates :slug, uniqueness: true
-  validate :slug_not_changed
-  before_create :set_slug
   belongs_to :user
   has_many :questions, dependent: :destroy
 
-  private
-
-    def set_slug
-      title_slug = title.parameterize
-      regex_pattern = "slug #{Quiz::DB_REGEX_OPERATOR} ?"
-      latest_quiz_slug = Quiz.where(
-        regex_pattern,
-        "#{title_slug}$|#{title_slug}-[0-9]+$"
-      ).order(slug: :desc).first&.slug
-      slug_count = 0
-      if latest_quiz_slug.present?
-        slug_count = latest_quiz_slug.split("-").last.to_i
-        only_one_slug_exists = slug_count == 0
-        slug_count = 1 if only_one_slug_exists
-      end
-      slug_candidate = slug_count.positive? ? "#{title_slug}-#{slug_count + 1}" : title_slug
-      self.slug = slug_candidate
+  def self.set_slug(title)
+    title_slug = title.parameterize
+    regex_pattern = "slug #{Quiz::DB_REGEX_OPERATOR} ?"
+    latest_quiz_slug = Quiz.where(
+      regex_pattern,
+      "#{title_slug}$|#{title_slug}-[0-9]+$"
+    ).order(slug: :desc).first&.slug
+    slug_count = 0
+    if latest_quiz_slug.present?
+      slug_count = latest_quiz_slug.split("-").last.to_i
+      only_one_slug_exists = slug_count == 0
+      slug_count = 1 if only_one_slug_exists
     end
-
-    def slug_not_changed
-      if slug_changed? && self.persisted?
-        errors.add(:slug, t("quiz.slug.immutable"))
-      end
-    end
+    slug_candidate = slug_count.positive? ? "#{title_slug}-#{slug_count + 1}" : title_slug
+    slug_candidate
+  end
 end

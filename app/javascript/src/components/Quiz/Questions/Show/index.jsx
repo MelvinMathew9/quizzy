@@ -5,7 +5,7 @@ import { Button, Typography, Tag } from "neetoui";
 import { useParams } from "react-router";
 
 const Show = ({ data, index, setShowModal, setQuestion }) => {
-  const { slug } = useParams();
+  const { quiz_id } = useParams();
   const handleDelete = question => {
     setQuestion(question);
     setShowModal(true);
@@ -26,7 +26,7 @@ const Show = ({ data, index, setShowModal, setQuestion }) => {
             style="secondary"
             icon={Highlight}
             iconPosition="left"
-            to={`/quizzes/questions/${slug}/${data.id}/edit`}
+            to={`/quizzes/${quiz_id}/questions/${data.id}/edit`}
             label="Edit"
           ></Button>
           <Button
@@ -41,7 +41,7 @@ const Show = ({ data, index, setShowModal, setQuestion }) => {
           <div
             key={index}
             className={`${
-              option.is_answer ? "bg-green-100 " : "bg-gray-100"
+              option.is_answer ? "bg-green-200 " : "bg-gray-100"
             } p-2 my-2 flex items-center`}
           >
             <Typography style="body1" className="flex-grow">

@@ -15,13 +15,13 @@ const Questions = () => {
   const [question, setQuestion] = useState({});
 
   const [modal, setShowModal] = useState(false);
-  const { slug } = useParams();
+  const { quiz_id } = useParams();
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   const fetchQuiz = async () => {
     try {
-      const quizResponse = await quizApi.show(slug);
+      const quizResponse = await quizApi.show(quiz_id);
       setQuiz(quizResponse?.data?.quiz);
     } catch (error) {
       logger.error(error);
@@ -30,6 +30,18 @@ const Questions = () => {
     }
   };
 
+  const handlePublish = async () => {
+    try {
+      setLoading(true);
+      await quizApi.update(quiz_id, {
+        publish: true,
+      });
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     fetchQuiz();
   }, []);
@@ -50,13 +62,18 @@ const Questions = () => {
         </Typography>
         <Button
           label="Add questions"
-          onClick={() => history.push(`/quizzes/questions/${slug}/create`)}
+          onClick={() => history.push(`/quizzes/${quiz_id}/questions/create`)}
           iconPosition="left"
           icon={() => <Plus size={18} />}
           className="md:self-end self-center"
         />
         {quiz.questions.length ? (
-          <Button label="Publish" className="md:self-end self-center" />
+          <Button
+            label="Publish"
+            onClick={handlePublish}
+            loading={loading}
+            className="md:self-end self-center"
+          />
         ) : (
           ""
         )}

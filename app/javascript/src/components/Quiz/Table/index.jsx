@@ -19,7 +19,7 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
             <div className="flex">
               <Button
                 style="link"
-                to={`/quizzes/questions/${quiz.slug}`}
+                to={`/quizzes/${quiz.id}/questions`}
                 label={quiz.title}
                 className="flex-grow"
               />
@@ -27,7 +27,7 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
                 <Button
                   style="secondary"
                   icon={Highlight}
-                  to={`/quizzes/${quiz?.slug}/edit`}
+                  to={`/quizzes/${quiz?.id}/edit`}
                   iconPosition="left"
                   label="Edit"
                 ></Button>

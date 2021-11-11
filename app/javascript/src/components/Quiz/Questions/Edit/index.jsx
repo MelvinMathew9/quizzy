@@ -17,9 +17,9 @@ const Edit = () => {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState(null);
   const history = useHistory();
-  const { slug, id } = useParams();
+  const { quiz_id, question_id } = useParams();
   let defaultValues = FORM_INITIAL_VALUES;
-  let data = quiz ? quiz.questions.find(q => q.id == id) : {};
+  let data = quiz ? quiz.questions.find(q => q.id == question_id) : {};
   defaultValues = {
     answer: data?.options
       ? {
@@ -35,7 +35,7 @@ const Edit = () => {
   const fetchQuiz = async () => {
     try {
       setLoading(true);
-      const response = await quizApi.show(slug);
+      const response = await quizApi.show(quiz_id);
       setQuiz(response.data.quiz);
     } catch (error) {
       logger.error(error);
@@ -50,7 +50,7 @@ const Edit = () => {
   const handleSubmit = async values => {
     if (values.options.includes(values?.answer?.value)) {
       try {
-        await questionApi.update(id, {
+        await questionApi.update(question_id, {
           questions: {
             question: values?.question,
             quiz_id: quiz.id,
@@ -62,7 +62,7 @@ const Edit = () => {
             }),
           },
         });
-        history.push(`/quizzes/questions/${slug}`);
+        history.push(`/quizzes/${quiz_id}/questions`);
       } catch (error) {
         logger.error(error);
       }
@@ -99,7 +99,7 @@ const Edit = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/questions/${slug}`}
+                  to={`/quizzes/${quiz_id}/questions`}
                   icon={() => <LeftArrowCircle size={20} />}
                 />
               </div>
