@@ -42,6 +42,7 @@ en:
     successfully_created: "Quiz was successfully created!"
     successfully_updated: "Quiz was successfully updated!"
     successfully_deleted: "Quiz was successfully deleted!"
+    successfully_published: "Quiz was successfully published!"
   question:
     successfully_created: "Question was successfully created!"
     successfully_updated: "Question was successfully updated!"

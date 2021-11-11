@@ -18,6 +18,7 @@ import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
 import EditQuestion from "./components/Quiz/Questions/Edit";
+import Submission from "./components/Submission";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,17 +44,35 @@ const App = () => {
       <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route exact path="/quizzes/create" component={CreateQuiz} />
-        <Route exact path="/quizzes/:slug/edit" component={EditQuiz} />
-        <Route exact path="/quizzes/questions/:slug" component={Questions} />
-        <Route
+        <Route exact path="/public/:slug" component={Submission} />
+        <PrivateRoute
           exact
-          path="/quizzes/questions/:slug/create"
+          path="/quizzes/create"
+          condition={isLoggedIn}
+          component={CreateQuiz}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path="/quizzes/:quiz_id/edit"
+          component={EditQuiz}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path="/quizzes/:quiz_id/questions/"
+          component={Questions}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path="/quizzes/:quiz_id/questions/create"
           component={CreateQuestion}
         />
-        <Route
+        <PrivateRoute
           exact
-          path="/quizzes/questions/:slug/:id/edit"
+          condition={isLoggedIn}
+          path="/quizzes/:quiz_id/questions/:question_id/edit"
           component={EditQuestion}
         />
         <PrivateRoute

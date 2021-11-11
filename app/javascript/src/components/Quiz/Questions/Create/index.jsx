@@ -15,11 +15,11 @@ import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
 const Create = () => {
   const [id, setId] = useState(null);
-  const { slug } = useParams();
+  const { quiz_id } = useParams();
   const history = useHistory();
   const fetchQuiz = async () => {
     try {
-      const response = await quizApi.show(slug);
+      const response = await quizApi.show(quiz_id);
       setId(response.data.quiz.id);
     } catch (error) {
       logger.error(error);
@@ -44,7 +44,7 @@ const Create = () => {
             }),
           },
         });
-        history.push(`/quizzes/questions/${slug}`);
+        history.push(`/quizzes/${quiz_id}/questions`);
       } catch (error) {
         logger.error(error);
       }
@@ -74,7 +74,7 @@ const Create = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/questions/${slug}`}
+                  to={`/quizzes/${quiz_id}/questions`}
                   icon={() => <LeftArrowCircle size={20} />}
                 />
               </div>

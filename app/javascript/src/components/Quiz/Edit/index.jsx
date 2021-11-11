@@ -14,10 +14,10 @@ const Edit = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
-  const { slug } = useParams();
+  const { quiz_id } = useParams();
   const fetchQuizzes = async () => {
     try {
-      const response = await quizApi.show(slug);
+      const response = await quizApi.show(quiz_id);
       setTitle(response.data.quiz.title);
     } catch (error) {
       logger.error(error);
@@ -36,7 +36,8 @@ const Edit = () => {
     } else {
       try {
         setLoading(true);
-        await quizApi.update(slug, {
+        await quizApi.update(quiz_id, {
+          publish: false,
           quiz: { title, user_id: getFromLocalStorage("authUserId") },
         });
         history.push("/dashboard");

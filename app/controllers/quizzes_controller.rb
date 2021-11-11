@@ -30,12 +30,21 @@ class QuizzesController < ApplicationController
 
   def update
     authorize @quiz
-
-    if @quiz.update(quiz_params)
-      render status: :ok, json: { notice: t("quiz.successfully_updated") }
+    if params[:publish]
+      slug = Quiz.set_slug(@quiz.title)
+      if @quiz.update(slug: slug)
+        render status: :ok, json: { notice: t("quiz.successfully_published") }
+      else
+        render status: :unprocessable_entity,
+          json: { errors: @quiz.errors.full_messages.to_sentence }
+      end
     else
-      render status: :unprocessable_entity,
-        json: { errors: @quiz.errors.full_messages.to_sentence }
+      if @quiz.update(quiz_params)
+        render status: :ok, json: { notice: t("quiz.successfully_updated") }
+      else
+        render status: :unprocessable_entity,
+          json: { errors: @quiz.errors.full_messages.to_sentence }
+      end
     end
   end
 
@@ -57,7 +66,7 @@ class QuizzesController < ApplicationController
     end
 
     def load_quiz
-      @quiz = Quiz.find_by_slug!(params[:slug])
+      @quiz = Quiz.find(params[:id])
       rescue ActiveRecord::RecordNotFound => e
         render json: { errors: e }, status: :not_found
     end

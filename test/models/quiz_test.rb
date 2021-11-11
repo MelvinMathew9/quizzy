@@ -34,28 +34,19 @@ class QuizTest < ActiveSupport::TestCase
 
   def test_incremental_slug_generation_for_quizzes_with_duplicate_two_worded_titles
     first_quiz = Quiz.create!(title: "test quiz", user: @user)
+    first_quiz.update!(slug: Quiz.set_slug(first_quiz.title))
     second_quiz = Quiz.create!(title: "test quiz", user: @user)
-
+    second_quiz.update!(slug: Quiz.set_slug(second_quiz.title))
     assert_equal "test-quiz", first_quiz.slug
     assert_equal "test-quiz-2", second_quiz.slug
   end
 
   def test_incremental_slug_generation_for_quizzes_with_duplicate_hyphenated_titles
     first_quiz = Quiz.create!(title: "test-quiz", user: @user)
+    first_quiz.update!(slug: Quiz.set_slug(first_quiz.title))
     second_quiz = Quiz.create!(title: "test-quiz", user: @user)
-
+    second_quiz.update!(slug: Quiz.set_slug(second_quiz.title))
     assert_equal "test-quiz", first_quiz.slug
     assert_equal "test-quiz-2", second_quiz.slug
-  end
-
-  def test_error_raised_for_duplicate_slug
-    another_test_quiz = Quiz.create!(title: "another test quiz", user: @user)
-
-    assert_raises ActiveRecord::RecordInvalid do
-      another_test_quiz.update!(slug: @quiz.slug)
-    end
-
-    error_msg = another_test_quiz.errors.full_messages.to_sentence
-    assert_match t("quiz.slug.immutable"), error_msg
   end
 end
