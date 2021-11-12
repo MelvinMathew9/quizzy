@@ -13,12 +13,12 @@ import PrivateRoute from "./components/Common/PrivateRoute";
 import Topbar from "./components/Common/Topbar";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
+import Submission from "./components/Participant";
 import CreateQuiz from "./components/Quiz/Create";
 import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
 import EditQuestion from "./components/Quiz/Questions/Edit";
-import Submission from "./components/Submission";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
