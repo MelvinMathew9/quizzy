@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 
 import { setAuthHeaders } from "apis/axios";
 import publicApi from "apis/public";
-import userApi from "apis/user";
 import { setToSessionsStorage } from "helpers/storage";
 
 import Create from "./Create";
@@ -37,8 +36,13 @@ const Login = ({ setData }) => {
     event.preventDefault();
     try {
       setLoading(true);
-      const response = await userApi.create({
-        user: { first_name: firstName, last_name: lastName, email },
+      const response = await publicApi.createUser({
+        user: {
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          quiz_id: quiz?.id,
+        },
       });
       setToSessionsStorage({
         authToken: response.data.user.authentication_token,

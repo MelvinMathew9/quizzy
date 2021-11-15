@@ -4,5 +4,5 @@ class AttemptAnswer < ApplicationRecord
   belongs_to :attempt
   belongs_to :question
 
-  validates :attempt, uniqueness: { scope: :question, message: "Already exists" }
+  validates :attempt, uniqueness: { scope: :question }
 end
