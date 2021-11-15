@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Radio, Typography, Tag } from "neetoui";
+import { Radio, Typography, Tag, Button } from "neetoui";
 import { useParams } from "react-router";
 
 import publicApi from "apis/public";
@@ -23,7 +23,7 @@ const Attempt = () => {
   }, []);
 
   return (
-    <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-2">
+    <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-4">
       {questions?.map((data, index) => (
         <div key={index} className="neeto-ui-shadow-s my-2 ">
           <Tag
@@ -54,6 +54,7 @@ const Attempt = () => {
           </div>
         </div>
       ))}
+      <Button label="Submit" className="self-end" />
     </div>
   );
 };
