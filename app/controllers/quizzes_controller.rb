@@ -16,7 +16,7 @@ class QuizzesController < ApplicationController
     authorize @quiz
     if @quiz.save
       render status: :ok,
-        json: { notice: t("quiz.successfully_created") }
+        json: { notice: t("successfully_created", entity: "Quiz") }
     else
       errors = @quiz.errors.full_messages.to_sentence
       render status: :unprocessable_entity, json: { errors: errors }
@@ -33,14 +33,14 @@ class QuizzesController < ApplicationController
     if params[:publish]
       slug = Quiz.set_slug(@quiz.title)
       if @quiz.update(slug: slug)
-        render status: :ok, json: { notice: t("quiz.successfully_published") }
+        render status: :ok, json: { notice: t("successfully_published", entity: "Quiz") }
       else
         render status: :unprocessable_entity,
           json: { errors: @quiz.errors.full_messages.to_sentence }
       end
     else
       if @quiz.update(quiz_params)
-        render status: :ok, json: { notice: t("quiz.successfully_updated") }
+        render status: :ok, json: { notice: t("successfully_updated", entity: "Quiz") }
       else
         render status: :unprocessable_entity,
           json: { errors: @quiz.errors.full_messages.to_sentence }
@@ -52,7 +52,7 @@ class QuizzesController < ApplicationController
     authorize @quiz
 
     if @quiz.destroy
-      render status: :ok, json: { notice: t("quiz.successfully_deleted") }
+      render status: :ok, json: { notice: t("successfully_deleted", entity: "Quiz") }
     else
       render status: :unprocessable_entity,
         json: { errors: @quiz.errors.full_messages.to_sentence }

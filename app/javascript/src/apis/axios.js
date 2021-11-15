@@ -6,7 +6,7 @@ import { getFromLocalStorage } from "helpers/storage.js";
 axios.defaults.baseURL = "/";
 const DEFAULT_ERROR_NOTIFICATION = "Something went wrong!";
 
-const setAuthHeaders = (setLoading = () => null) => {
+const setAuthHeaders = (setLoading = () => null, user = "admin") => {
   axios.defaults.headers = {
     Accept: "application/json",
     "Content-Type": "application/json",
@@ -14,8 +14,14 @@ const setAuthHeaders = (setLoading = () => null) => {
       .querySelector('[name="csrf-token"]')
       .getAttribute("content"),
   };
-  const token = getFromLocalStorage("authToken");
-  const email = getFromLocalStorage("authEmail");
+  const token =
+    user === "admin"
+      ? getFromLocalStorage("authToken")
+      : sessionStorage.getItem("authToken");
+  const email =
+    user === "admin"
+      ? getFromLocalStorage("authEmail")
+      : sessionStorage.getItem("authEmail");
   if (token && email) {
     axios.defaults.headers["X-Auth-Email"] = email;
     axios.defaults.headers["X-Auth-Token"] = token;

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[create update]
   before_action :load_question, only: %i[destroy update]
 
@@ -11,7 +12,7 @@ class QuestionsController < ApplicationController
         option = question.options.new(option.merge(question_id: question.id))
         option.save
       end
-      render status: :ok, json: { notice: t("question.successfully_created") }
+      render status: :ok, json: { notice: t("successfully_created", entity: "Question") }
     else
       errors = question.errors.full_messages.to_sentence
       render status: :unprocessable_entity, json: { errors: errors }
@@ -25,7 +26,7 @@ class QuestionsController < ApplicationController
         option = @question.options.new(option.merge(question_id: @question.id))
         option.save
       end
-      render status: :ok, json: { notice: t("question.successfully_updated") }
+      render status: :ok, json: { notice: t("successfully_updated", entity: "Question") }
     else
       render status: :unprocessable_entity,
         json: { errors: @question.errors.full_messages.to_sentence }
@@ -34,7 +35,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     if @question.destroy
-      render status: :ok, json: { notice: t("question.successfully_deleted") }
+      render status: :ok, json: { notice: t("successfully_deleted", entity: "Question") }
     else
       render status: :unprocessable_entity,
         json: { errors: @question.errors.full_messages.to_sentence }

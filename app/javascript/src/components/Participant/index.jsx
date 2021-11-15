@@ -1,16 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import Attempt from "./Attempt";
+import { Typography, PageLoader } from "neetoui";
+import { useHistory, useParams } from "react-router";
 
-const Submission = () => {
+import publicApi from "apis/public";
+
+const Participant = () => {
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+  const { slug } = useParams();
+  const fetchQuiz = async () => {
+    try {
+      setLoading(true);
+      await publicApi.showQuiz(slug);
+      history.push(`/public/${slug}/attempt/new`);
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchQuiz();
+  }, []);
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
+
   return (
-    <Attempt
-      data={{
-        question: "test",
-        options: [{ content: "test" }, { content: "test" }],
-      }}
-    />
+    <div className="h-screen flex flex-col items-center justify-center">
+      <Typography style="h2" className="text-gray-700">
+        Quiz not found
+      </Typography>
+    </div>
   );
 };
 
-export default Submission;
+export default Participant;

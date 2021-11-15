@@ -2,7 +2,14 @@ import React from "react";
 
 import { Input, Button, Typography } from "neetoui";
 
-const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
+const Create = ({
+  handleSubmit,
+  setEmail,
+  email,
+  password,
+  setPassword,
+  loading,
+}) => {
   return (
     <div className="flex items-center justify-center mt-40 space-y-2  px-4">
       <div className="w-full max-w-md flex flex-col space-y-6 neeto-ui-shadow-xs p-5">
@@ -15,6 +22,7 @@ const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
             type="email"
             placeholder="sam@example.com"
             required={true}
+            value={email}
             onChange={e => setEmail(e.target.value)}
           />
           <Input
@@ -22,6 +30,7 @@ const Create = ({ handleSubmit, setEmail, setPassword, loading }) => {
             type="password"
             placeholder="********"
             required={true}
+            value={password}
             onChange={e => setPassword(e.target.value)}
           />
           <Button

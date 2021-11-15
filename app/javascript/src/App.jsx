@@ -13,7 +13,8 @@ import PrivateRoute from "./components/Common/PrivateRoute";
 import Topbar from "./components/Common/Topbar";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
-import Submission from "./components/Participant";
+import Participant from "./components/Participant";
+import Main from "./components/Participant/Main";
 import CreateQuiz from "./components/Quiz/Create";
 import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
@@ -23,7 +24,7 @@ import EditQuestion from "./components/Quiz/Questions/Edit";
 const App = () => {
   const [loading, setLoading] = useState(true);
   const authToken = getFromLocalStorage("authToken");
-  const isLoggedIn = !either(isNil, isEmpty)(authToken) && authToken !== "null";
+  const isLoggedIn = !either(isNil, isEmpty)(authToken);
   useEffect(() => {
     registerIntercepts();
     initializeLogger();
@@ -44,7 +45,8 @@ const App = () => {
       <Topbar isLoggedIn={isLoggedIn} />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route exact path="/public/:slug" component={Submission} />
+        <Route exact path="/public/:slug" component={Participant} />
+        <Route exact path="/public/:slug/attempt/new" component={Main} />
         <PrivateRoute
           exact
           path="/quizzes/create"
