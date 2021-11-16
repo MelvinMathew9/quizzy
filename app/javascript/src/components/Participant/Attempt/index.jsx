@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Radio, Typography, Tag, Button } from "neetoui";
+import { Radio, Typography, Tag, Button, PageLoader } from "neetoui";
 import { useHistory, useParams } from "react-router";
 
 import publicApi from "apis/public";
@@ -16,10 +16,19 @@ const Attempt = () => {
   const history = useHistory();
   const fetchQuestion = async () => {
     try {
+      setLoading(true);
+      const attemptResponse = await publicApi.showAnswers(
+        participantData?.attempt_id
+      );
+      if (attemptResponse.data?.attempt?.submitted) {
+        history.push(`/public/${slug}/attempt/quiz-result`);
+      }
       const response = await publicApi.showQuestion(slug);
       setQuestions(response.data?.quiz?.questions);
     } catch (error) {
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -51,6 +60,14 @@ const Attempt = () => {
       fetchQuestion();
     }
   }, []);
+
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-4">

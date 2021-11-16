@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Radio, Typography, Tag, PageLoader } from "neetoui";
+import { CheckCircle, CloseCircle } from "neetoicons";
+import { Radio, Typography, Tag, PageLoader, Button } from "neetoui";
 import { useParams, useHistory } from "react-router";
 
 import publicApi from "apis/public";
@@ -50,23 +51,17 @@ const Result = () => {
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-4">
-      <div className="flex justify-around ">
-        <div className="neeto-ui-shadow-s m-2 p-4 flex flex-col items-center justify-center flex-grow">
-          <Typography style="h3" className="text-green-500">
-            {score}
-          </Typography>
-          <Typography style="body1" className="text-green-500">
-            Correct
-          </Typography>
-        </div>
-        <div className="neeto-ui-shadow-s m-2 p-2 flex flex-col items-center justify-center flex-grow">
-          <Typography style="h3" className="text-red-500">
-            {answers?.length - score}
-          </Typography>
-          <Typography style="body1" className="text-red-500">
-            Wrong
-          </Typography>
-        </div>
+      <div className="flex justify-end space-x-2 ">
+        <Button
+          style="secondary"
+          label={`${score}`}
+          icon={() => <CheckCircle size={16} />}
+        />
+        <Button
+          label={`${answers?.length - score}`}
+          style="danger"
+          icon={() => <CloseCircle size={16} />}
+        />
       </div>
       {answers?.map((data, index) => (
         <div key={index} className="neeto-ui-shadow-s my-2 ">

@@ -23,9 +23,9 @@ class Public::AttemptsController < ApplicationController
         id: q.id, question: q.question, options: q.options, submitted_answer: submitted_answers.find { |answer|
 answer.question_id == q.id }.answer
       } }
-      render status: :ok, json: { answers: answers }
+      render status: :ok, json: { answers: answers, attempt: @attempt }
     else
-      render status: :ok, json: { notice: t("quiz.not_submitted") }
+      render status: :ok, json: { notice: t("quiz.not_submitted", attempt: @attempt) }
     end
   end
 
