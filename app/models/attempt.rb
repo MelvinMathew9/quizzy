@@ -3,5 +3,7 @@
 class Attempt < ApplicationRecord
   belongs_to :user
   belongs_to :quiz
-  validates :quiz, uniqueness: { scope: :user }
+  has_many :attempt_answers, dependent: :destroy
+
+  validates :quiz_id, uniqueness: { scope: :user_id }
 end

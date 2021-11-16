@@ -41,7 +41,13 @@ const Login = ({ setData }) => {
           first_name: firstName,
           last_name: lastName,
           email,
-          quiz_id: quiz?.id,
+        },
+      });
+
+      const attemptResponse = await publicApi.createAttempt({
+        attempt: {
+          quiz_id: quiz.id,
+          user_id: response.data?.user?.id,
         },
       });
       setToSessionsStorage({
@@ -55,6 +61,7 @@ const Login = ({ setData }) => {
         email: response.data.user.email,
         userId: response.data.user.id,
         userName: `${response.data.user.first_name} ${response.data.user.last_name}`,
+        attempt_id: attemptResponse.data?.attempt?.id,
       });
       setAuthHeaders(setLoading, "standard");
     } catch (error) {

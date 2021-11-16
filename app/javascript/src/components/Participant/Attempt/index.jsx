@@ -5,8 +5,10 @@ import { useParams } from "react-router";
 
 import publicApi from "apis/public";
 
-const Attempt = () => {
+const Attempt = ({ userData }) => {
   const [questions, setQuestions] = useState();
+  const [selectedAnswer, setSelectedAnswer] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const { slug } = useParams();
 
@@ -16,6 +18,27 @@ const Attempt = () => {
       setQuestions(response.data?.quiz?.questions);
     } catch (error) {
       logger.error(error);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      await publicApi.createAttemptAnswers({
+        answers: {
+          attempt_id: userData?.attempt_id,
+          list: Object.keys(selectedAnswer).map(item => {
+            return {
+              answer: selectedAnswer[item],
+              question_id: item,
+            };
+          }),
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -45,8 +68,14 @@ const Attempt = () => {
                 <div key={i} className="bg-gray-100 p-2 mt-2 self-stretch">
                   <Radio.Item
                     label={option.content}
-                    value={option.content}
-                    name={`answer${index + 1}`}
+                    value={option.id}
+                    name={data.id}
+                    onClick={() =>
+                      setSelectedAnswer({
+                        ...selectedAnswer,
+                        [data.id]: option.id,
+                      })
+                    }
                   />
                 </div>
               ))}
@@ -54,7 +83,14 @@ const Attempt = () => {
           </div>
         </div>
       ))}
-      <Button label="Submit" className="self-end" />
+      <Button
+        label="Submit"
+        className="self-end"
+        onClick={handleSubmit}
+        loading={loading}
+        disabled={loading}
+      />
+      <pre>{JSON.stringify(selectedAnswer, null, 2)}</pre>
     </div>
   );
 };

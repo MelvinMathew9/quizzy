@@ -4,7 +4,7 @@ class Public::QuizzesController < ApplicationController
   before_action :load_quiz, only: %i[show]
 
   def show
-    render json: { quiz: { title: @quiz.title } }, status: :ok
+    render json: { quiz: { id: @quiz.id, title: @quiz.title } }, status: :ok
   end
 
   private

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_15_151448) do
+ActiveRecord::Schema.define(version: 2021_11_15_123205) do
 
   create_table "attempt_answers", force: :cascade do |t|
     t.integer "answer"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2021_11_15_151448) do
     t.integer "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"attempt\", \"question\"", name: "index_attempt_answers_on_attempt_and_question", unique: true
+    t.index ["attempt_id", "question_id"], name: "index_attempt_answers_on_attempt_id_and_question_id", unique: true
     t.index ["attempt_id"], name: "index_attempt_answers_on_attempt_id"
     t.index ["question_id"], name: "index_attempt_answers_on_question_id"
   end
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2021_11_15_151448) do
     t.integer "quiz_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"quiz\", \"user\"", name: "index_attempts_on_quiz_and_user", unique: true
     t.index ["quiz_id"], name: "index_attempts_on_quiz_id"
+    t.index ["user_id", "quiz_id"], name: "index_attempts_on_user_id_and_quiz_id", unique: true
     t.index ["user_id"], name: "index_attempts_on_user_id"
   end
 

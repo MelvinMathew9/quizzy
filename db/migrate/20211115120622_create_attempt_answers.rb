@@ -6,7 +6,7 @@ class CreateAttemptAnswers < ActiveRecord::Migration[6.1]
       t.integer :answer
       t.references :attempt, null: false, foreign_key: true
       t.references :question, null: false, foreign_key: true
-      t.index [:attempt, :question], unique: true
+      t.index [:attempt_id, :question_id], unique: true
       t.timestamps
     end
   end
