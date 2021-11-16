@@ -42,7 +42,7 @@ const Questions = () => {
   };
   useEffect(() => {
     fetchQuiz();
-  }, []);
+  }, [publish]);
 
   if (loading) {
     return (
@@ -68,7 +68,7 @@ const Questions = () => {
         />
         {quiz.questions.length ? (
           <Button
-            label={quiz?.slug || publish ? "Published" : "publish"}
+            label={quiz?.slug || publish ? "Published" : "Publish"}
             onClick={handlePublish}
             disabled={quiz?.slug || publish ? true : false}
             className="md:self-end self-center"
@@ -77,7 +77,7 @@ const Questions = () => {
           ""
         )}
       </div>
-      {(quiz?.slug || publish) && (
+      {quiz?.slug && (
         <div className="self-end">
           Public URL:
           <Button

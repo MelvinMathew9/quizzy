@@ -6,7 +6,7 @@ class QuizTest < ActiveSupport::TestCase
   def setup
     @user = User.new(
       first_name: "Sam", last_name: "Smith", email: "sam@example.com", password: "welcome",
-      password_confirmation: "welcome")
+      password_confirmation: "welcome", role: "administrator")
     @quiz = Quiz.new(title: "test title", slug: "test-title", user: @user)
   end
 

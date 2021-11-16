@@ -38,6 +38,8 @@ const Login = () => {
       setEmail={setEmail}
       setPassword={setPassword}
       loading={loading}
+      email={email}
+      password={password}
       handleSubmit={handleSubmit}
     />
   );

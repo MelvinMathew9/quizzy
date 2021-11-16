@@ -6,6 +6,13 @@ Rails.application.routes.draw do
     resource :sessions, only: %i[create destroy]
     resources :quizzes, only: %i[create index show update destroy]
     resources :questions, only: %i[create update destroy]
+    namespace :public do
+      resources :quizzes, only: %i[show], param: :slug
+      resources :questions, only: %i[show], param: :slug
+      resources :attempts, only: %i[create show]
+      resources :attempt_answers, only: %i[create]
+      resources :users, only: %i[create]
+    end
 
   end
 

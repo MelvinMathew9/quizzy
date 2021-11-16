@@ -39,11 +39,11 @@ en:
   quiz:
     slug:
       immutable: "is immutable!"
-    successfully_created: "Quiz was successfully created!"
-    successfully_updated: "Quiz was successfully updated!"
-    successfully_deleted: "Quiz was successfully deleted!"
-    successfully_published: "Quiz was successfully published!"
-  question:
-    successfully_created: "Question was successfully created!"
-    successfully_updated: "Question was successfully updated!"
-    successfully_deleted: "Question was successfully deleted!"
+    not_submitted: "Quiz was not submitted!"
+  successfully_created: "%{entity} was successfully created!"
+  successfully_updated: "%{entity} was successfully updated!"
+  successfully_deleted: "%{entity} was successfully deleted!"
+  successfully_submitted: "%{entity} was successfully submitted!"
+  successfully_published: "%{entity} was successfully published!"
+  successfully_registered: "%{entity} was successfully registered!"
+  already_registered: "%{entity} was already registered!"

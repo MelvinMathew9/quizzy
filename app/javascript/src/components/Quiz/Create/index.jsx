@@ -61,6 +61,7 @@ const Create = () => {
           size="large"
           onClick={handleSubmit}
           loading={loading}
+          disabled={loading}
           fullWidth={true}
         />
       </div>

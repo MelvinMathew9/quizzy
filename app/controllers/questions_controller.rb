@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[create update]
   before_action :load_question, only: %i[destroy update]
 
@@ -11,10 +12,10 @@ class QuestionsController < ApplicationController
         option = question.options.new(option.merge(question_id: question.id))
         option.save
       end
-      render status: :ok, json: { notice: t("question.successfully_created") }
+      render status: :ok, json: { notice: t("successfully_created", entity: "Question") }
     else
       errors = question.errors.full_messages.to_sentence
-      render status: :unprocessable_entity, json: { errors: errors }
+      render status: :unprocessable_entity, json: { error: errors }
     end
   end
 
@@ -25,19 +26,19 @@ class QuestionsController < ApplicationController
         option = @question.options.new(option.merge(question_id: @question.id))
         option.save
       end
-      render status: :ok, json: { notice: t("question.successfully_updated") }
+      render status: :ok, json: { notice: t("successfully_updated", entity: "Question") }
     else
       render status: :unprocessable_entity,
-        json: { errors: @question.errors.full_messages.to_sentence }
+        json: { error: @question.errors.full_messages.to_sentence }
     end
   end
 
   def destroy
     if @question.destroy
-      render status: :ok, json: { notice: t("question.successfully_deleted") }
+      render status: :ok, json: { notice: t("successfully_deleted", entity: "Question") }
     else
       render status: :unprocessable_entity,
-        json: { errors: @question.errors.full_messages.to_sentence }
+        json: { error: @question.errors.full_messages.to_sentence }
     end
   end
 
@@ -50,12 +51,12 @@ class QuestionsController < ApplicationController
     def load_quiz
       @quiz = Quiz.find(question_params[:quiz_id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e }, status: :not_found
+        render json: { error: e }, status: :not_found
     end
 
     def load_question
       @question = Question.find(params[:id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e }, status: :not_found
+        render json: { error: e }, status: :not_found
     end
 end

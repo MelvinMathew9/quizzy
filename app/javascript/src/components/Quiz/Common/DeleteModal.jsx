@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Check } from "neetoicons";
 import { Modal, Typography, Button } from "neetoui";
@@ -7,8 +7,10 @@ import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
 
 const DeleteModal = ({ setShowModal, data, refetch, type }) => {
+  const [loading, setLoading] = useState(false);
   const handleDelete = async () => {
     try {
+      setLoading(true);
       type == "Quiz"
         ? await quizApi.destroy(data.id)
         : await questionApi.destroy(data.id);
@@ -17,6 +19,7 @@ const DeleteModal = ({ setShowModal, data, refetch, type }) => {
       logger.error(error);
     } finally {
       setShowModal(false);
+      setLoading(false);
     }
   };
   return (
@@ -36,6 +39,8 @@ const DeleteModal = ({ setShowModal, data, refetch, type }) => {
             label="Continue"
             onClick={handleDelete}
             size="large"
+            loading={loading}
+            disabled={loading}
           />
           <Button
             style="text"
