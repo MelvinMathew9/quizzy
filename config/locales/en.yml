@@ -39,6 +39,7 @@ en:
   quiz:
     slug:
       immutable: "is immutable!"
+    not_submitted: "Quiz was not submitted!"
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
   successfully_deleted: "%{entity} was successfully deleted!"

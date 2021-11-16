@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Radio, Typography, Tag, Button } from "neetoui";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import publicApi from "apis/public";
 
-const Attempt = ({ userData }) => {
+import { ParticipantContext } from "../../../contexts/ParticipantContext";
+
+const Attempt = () => {
   const [questions, setQuestions] = useState();
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const { participantData, slugVerified } = useContext(ParticipantContext);
   const { slug } = useParams();
-
+  const history = useHistory();
   const fetchQuestion = async () => {
     try {
       const response = await publicApi.showQuestion(slug);
@@ -26,7 +28,7 @@ const Attempt = ({ userData }) => {
       setLoading(true);
       await publicApi.createAttemptAnswers({
         answers: {
-          attempt_id: userData?.attempt_id,
+          attempt_id: participantData?.attempt_id,
           list: Object.keys(selectedAnswer).map(item => {
             return {
               answer: selectedAnswer[item],
@@ -35,6 +37,7 @@ const Attempt = ({ userData }) => {
           }),
         },
       });
+      history.push(`/public/${slug}/attempt/quiz-result`);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -42,7 +45,11 @@ const Attempt = ({ userData }) => {
     }
   };
   useEffect(() => {
-    fetchQuestion();
+    if (!slugVerified || !participantData) {
+      history.push(`/public/${slug}`);
+    } else {
+      fetchQuestion();
+    }
   }, []);
 
   return (
@@ -90,7 +97,6 @@ const Attempt = ({ userData }) => {
         loading={loading}
         disabled={loading}
       />
-      <pre>{JSON.stringify(selectedAnswer, null, 2)}</pre>
     </div>
   );
 };

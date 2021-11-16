@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
 import { setAuthHeaders } from "apis/axios";
 import publicApi from "apis/public";
@@ -8,13 +8,17 @@ import { setToSessionsStorage } from "helpers/storage";
 
 import Create from "./Create";
 
-const Login = ({ setData }) => {
+import { ParticipantContext } from "../../../contexts/ParticipantContext";
+
+const Login = () => {
   const [quiz, setQuiz] = useState();
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
   const { slug } = useParams();
+  const history = useHistory();
+  const { slugVerified, setParticipantData } = useContext(ParticipantContext);
 
   const fetchQuiz = async () => {
     try {
@@ -29,7 +33,11 @@ const Login = ({ setData }) => {
   };
 
   useEffect(() => {
-    fetchQuiz();
+    if (!slugVerified) {
+      history.push(`/public/${slug}`);
+    } else {
+      fetchQuiz();
+    }
   }, []);
 
   const handleSubmit = async event => {
@@ -56,7 +64,7 @@ const Login = ({ setData }) => {
         userId: response.data.user.id,
         userName: `${response.data.user.first_name} ${response.data.user.last_name}`,
       });
-      setData({
+      setParticipantData({
         authToken: response.data.user.authentication_token,
         email: response.data.user.email,
         userId: response.data.user.id,
@@ -64,6 +72,7 @@ const Login = ({ setData }) => {
         attempt_id: attemptResponse.data?.attempt?.id,
       });
       setAuthHeaders(setLoading, "standard");
+      history.push(`/public/${slug}/attempt/quiz-new`);
     } catch (error) {
       logger.error(error);
     } finally {

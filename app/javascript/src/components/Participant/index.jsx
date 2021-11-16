@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import { Typography, PageLoader } from "neetoui";
 import { useHistory, useParams } from "react-router";
 
 import publicApi from "apis/public";
 
+import { ParticipantContext } from "../../contexts/ParticipantContext";
+
 const Participant = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { slug } = useParams();
+  const { setSlugVerified } = useContext(ParticipantContext);
+
   const fetchQuiz = async () => {
     try {
       setLoading(true);
       await publicApi.showQuiz(slug);
+      setSlugVerified(true);
       history.push(`/public/${slug}/attempt/new`);
     } catch (error) {
       logger.error(error);

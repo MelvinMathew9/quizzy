@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
       render status: :ok, json: { notice: t("successfully_created", entity: "Question") }
     else
       errors = question.errors.full_messages.to_sentence
-      render status: :unprocessable_entity, json: { errors: errors }
+      render status: :unprocessable_entity, json: { error: errors }
     end
   end
 
@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
       render status: :ok, json: { notice: t("successfully_updated", entity: "Question") }
     else
       render status: :unprocessable_entity,
-        json: { errors: @question.errors.full_messages.to_sentence }
+        json: { error: @question.errors.full_messages.to_sentence }
     end
   end
 
@@ -38,7 +38,7 @@ class QuestionsController < ApplicationController
       render status: :ok, json: { notice: t("successfully_deleted", entity: "Question") }
     else
       render status: :unprocessable_entity,
-        json: { errors: @question.errors.full_messages.to_sentence }
+        json: { error: @question.errors.full_messages.to_sentence }
     end
   end
 
@@ -51,12 +51,12 @@ class QuestionsController < ApplicationController
     def load_quiz
       @quiz = Quiz.find(question_params[:quiz_id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e }, status: :not_found
+        render json: { error: e }, status: :not_found
     end
 
     def load_question
       @question = Question.find(params[:id])
       rescue ActiveRecord::RecordNotFound => e
-        render json: { errors: e }, status: :not_found
+        render json: { error: e }, status: :not_found
     end
 end

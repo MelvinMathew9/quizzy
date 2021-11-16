@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     namespace :public do
       resources :quizzes, only: %i[show], param: :slug
       resources :questions, only: %i[show], param: :slug
-      resources :attempts, only: %i[create]
+      resources :attempts, only: %i[create show]
       resources :attempt_answers, only: %i[create]
       resources :users, only: %i[create]
     end
