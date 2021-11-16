@@ -21,7 +21,7 @@ class Public::AttemptsController < ApplicationController
       submitted_answers = AttemptAnswer.where({ attempt_id: @attempt.id })
       answers = @quiz.questions.map { |q| {
         id: q.id, question: q.question, options: q.options, submitted_answer: submitted_answers.find { |answer|
-answer.question_id == q.id }.answer
+answer.question_id == q.id } ? submitted_answers.find { |answer| answer.question_id == q.id }.answer : 0
       } }
       render status: :ok, json: { answers: answers, attempt: @attempt }
     else
