@@ -20,13 +20,7 @@ const Result = () => {
       setLoading(true);
       const response = await publicApi.showAnswers(participantData?.attempt_id);
       setAnswers(response.data?.answers);
-      setScore(
-        response.data?.answers.filter(
-          data =>
-            data.options.find(option => option.is_answer).id ===
-            data.submitted_answer
-        ).length
-      );
+      setScore(response.data?.attempt);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -54,11 +48,11 @@ const Result = () => {
       <div className="flex justify-end space-x-2 ">
         <Button
           style="secondary"
-          label={`${score}`}
+          label={`${score?.correct_answers_count}`}
           icon={() => <CheckCircle size={16} />}
         />
         <Button
-          label={`${answers?.length - score}`}
+          label={`${score?.incorrect_answers_count}`}
           style="danger"
           icon={() => <CloseCircle size={16} />}
         />

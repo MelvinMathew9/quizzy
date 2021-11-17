@@ -22,6 +22,7 @@ import EditQuiz from "./components/Quiz/Edit";
 import Questions from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
 import EditQuestion from "./components/Quiz/Questions/Edit";
+import Report from "./components/Report";
 import { ParticipantContext } from "./contexts/ParticipantContext";
 
 const App = () => {
@@ -92,6 +93,12 @@ const App = () => {
             condition={isLoggedIn}
             path="/quizzes/:quiz_id/questions/"
             component={Questions}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/report"
+            component={Report}
           />
           <PrivateRoute
             exact
