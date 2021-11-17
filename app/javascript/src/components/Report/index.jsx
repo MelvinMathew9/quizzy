@@ -13,7 +13,9 @@ const Report = () => {
     try {
       setLoading(true);
       const response = await reportApi.fetch();
-      setReport(response.data?.reports);
+      setReport(
+        response.data?.reports?.sort((a, b) => (a.title > b.title ? 1 : -1))
+      );
     } catch (error) {
       logger.error(error);
     } finally {
