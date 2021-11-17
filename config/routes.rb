@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resource :sessions, only: %i[create destroy]
     resources :quizzes, only: %i[create index show update destroy]
     resources :questions, only: %i[create update destroy]
+    resources :reports, only: %i[index]
+
     namespace :public do
       resources :quizzes, only: %i[show], param: :slug
       resources :questions, only: %i[show], param: :slug
