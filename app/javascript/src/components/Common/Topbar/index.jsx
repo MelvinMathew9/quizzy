@@ -22,7 +22,13 @@ const Topbar = ({ isLoggedIn }) => {
 
   return (
     <div className="p-4 flex border-gray-300 border-b-2">
-      <Typography style="h2" className="flex-grow">
+      <Typography
+        style="h2"
+        className="flex-grow hover: cursor-pointer"
+        onClick={() =>
+          !window.location.pathname.includes("public") && history.push("/")
+        }
+      >
         Quizzy
       </Typography>
       {isLoggedIn &&
