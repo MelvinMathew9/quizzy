@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import { PageLoader, Typography } from "neetoui";
+import { Download } from "neetoicons";
+import { PageLoader, Typography, Button } from "neetoui";
 
 import reportApi from "apis/report";
 
@@ -37,7 +38,20 @@ const Report = () => {
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-6">
       {report?.length ? (
-        <Table reports={report} />
+        <>
+          <div className="flex space-x-2">
+            <Typography style="h3" className="flex-grow text-gray-700">
+              Report
+            </Typography>
+
+            <Button
+              label="Download"
+              icon={() => <Download size={16} />}
+              className="md:self-end self-center space-x-2"
+            />
+          </div>
+          <Table reports={report} />
+        </>
       ) : (
         <Typography
           style="h3"
