@@ -38,7 +38,7 @@ const Topbar = ({ isLoggedIn }) => {
             <Button
               style="link"
               label="Reports"
-              onClick={() => history.push("/report")}
+              onClick={() => history.push("/reports")}
             />
             <Button style="link" label={getFromLocalStorage("userName")} />
             <Button style="link" label="Logout" onClick={handleLogout} />

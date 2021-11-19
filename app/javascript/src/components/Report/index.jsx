@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 
 import { Download } from "neetoicons";
 import { PageLoader, Typography, Button } from "neetoui";
-import HashLoader from "react-spinners/HashLoader";
 
 import reportApi from "apis/report";
 
+import Loading from "./Loading";
+import Ready from "./Ready";
 import Table from "./Table";
 
 const Report = () => {
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
-  const [downloading, setDownloading] = useState(false);
+  const [status, setStatus] = useState();
+  const [jobId, setJobId] = useState();
 
   const fetchReport = async () => {
     try {
@@ -26,6 +28,36 @@ const Report = () => {
       setLoading(false);
     }
   };
+  const handleExport = async () => {
+    try {
+      setStatus("started");
+      const response = await reportApi.exportReport();
+      setJobId(response.data?.jid);
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
+  const handleDownload = async () => {
+    window.location.href = `/export_download.xlsx?id=${jobId}`;
+  };
+
+  useEffect(() => {
+    if (jobId) {
+      const intervalId = setInterval(async () => {
+        try {
+          const response = await reportApi.exportStatus(jobId);
+          if (response.data.status === "complete") {
+            setStatus("completed");
+            clearInterval(intervalId);
+          }
+        } catch (error) {
+          logger.error(error);
+        }
+      }, 2000);
+    }
+  }, [jobId]);
+
   useEffect(() => {
     fetchReport();
   }, []);
@@ -38,20 +70,12 @@ const Report = () => {
     );
   }
 
-  if (downloading) {
-    return (
-      <div className="flex flex-col w-full py-4 md:px-5 px-4">
-        <Typography style="h3" className="text-gray-700">
-          Report
-        </Typography>
-        <div className="mt-64 self-center flex items-center space-x-4">
-          <HashLoader size={30} />
-          <Typography style="h3" className="text-gray-700">
-            Your report is being prepared for downloading
-          </Typography>
-        </div>
-      </div>
-    );
+  if (status === "started") {
+    return <Loading />;
+  }
+
+  if (status === "completed") {
+    return <Ready handleDownload={handleDownload} />;
   }
 
   return (
@@ -66,7 +90,7 @@ const Report = () => {
             <Button
               label="Download"
               icon={() => <Download size={16} />}
-              onClick={() => setDownloading(true)}
+              onClick={handleExport}
               className="md:self-end self-center space-x-2"
             />
           </div>
