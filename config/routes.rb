@@ -19,5 +19,7 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
+  get "/export" => "reports#export"
+  get "/export_status" => "reports#export_status"
   get "*path", to: "home#index", via: :all
 end
