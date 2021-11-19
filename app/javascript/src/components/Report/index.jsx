@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Download } from "neetoicons";
 import { PageLoader, Typography, Button } from "neetoui";
+import HashLoader from "react-spinners/HashLoader";
 
 import reportApi from "apis/report";
 
@@ -10,6 +11,8 @@ import Table from "./Table";
 const Report = () => {
   const [report, setReport] = useState();
   const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
   const fetchReport = async () => {
     try {
       setLoading(true);
@@ -35,6 +38,22 @@ const Report = () => {
     );
   }
 
+  if (downloading) {
+    return (
+      <div className="flex flex-col w-full py-4 md:px-5 px-4">
+        <Typography style="h3" className="text-gray-700">
+          Report
+        </Typography>
+        <div className="mt-64 self-center flex items-center space-x-4">
+          <HashLoader size={30} />
+          <Typography style="h3" className="text-gray-700">
+            Your report is being prepared for downloading
+          </Typography>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-6">
       {report?.length ? (
@@ -47,6 +66,7 @@ const Report = () => {
             <Button
               label="Download"
               icon={() => <Download size={16} />}
+              onClick={() => setDownloading(true)}
               className="md:self-end self-center space-x-2"
             />
           </div>

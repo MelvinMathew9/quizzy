@@ -32,8 +32,8 @@ class ExportReportWorker
       end
     end
     sleep 10
-    user_export_files = Dir[Rails.root.join("tmp", "report_export_*.xlsx")]
-    user_export_files.each do |file|
+    report_export_files = Dir[Rails.root.join("tmp", "report_export_*.xlsx")]
+    report_export_files.each do |file|
       FileUtils.rm file
     end
     xlsx_package.serialize Rails.root.join("tmp", "report_export_#{self.jid}.xlsx")
