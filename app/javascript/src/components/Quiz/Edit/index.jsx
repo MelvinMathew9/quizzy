@@ -8,14 +8,15 @@ import { useHistory, useParams } from "react-router";
 import quizApi from "apis/quiz";
 import { getFromLocalStorage } from "helpers/storage";
 
-import Container from "../../Common/Conatiner";
+import Container from "../../Common/Container";
 
 const Edit = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { quiz_id } = useParams();
-  const fetchQuizzes = async () => {
+
+  const fetchQuiz = async () => {
     try {
       const response = await quizApi.show(quiz_id);
       setTitle(response.data.quiz.title);
@@ -26,7 +27,7 @@ const Edit = () => {
     }
   };
   useEffect(() => {
-    fetchQuizzes();
+    fetchQuiz();
   }, []);
 
   const handleSubmit = async event => {
@@ -59,10 +60,10 @@ const Edit = () => {
             iconPosition="left"
             style="text"
             tooltipProps={{
-              content: "Go Bak",
+              content: "Go Back",
               position: "right",
             }}
-            onClick={() => history.push("/dashboard")}
+            to={"/dashboard"}
             icon={() => <LeftArrowCircle size={20} />}
           />
         </div>

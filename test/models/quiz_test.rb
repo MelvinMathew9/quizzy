@@ -23,7 +23,8 @@ class QuizTest < ActiveSupport::TestCase
 
   def test_quiz_should_not_be_valid_without_title
     @quiz.title = ""
-    assert @quiz.invalid?
+    assert_not @quiz.valid?
+    assert_equal ["Title can't be blank"], @quiz.errors.full_messages
   end
 
   def test_quiz_slug_is_parameterized_title

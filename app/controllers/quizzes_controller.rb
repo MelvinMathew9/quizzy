@@ -12,13 +12,13 @@ class QuizzesController < ApplicationController
    end
 
   def create
-    @quiz = Quiz.new(quiz_params)
-    authorize @quiz
-    if @quiz.save
+    quiz = @current_user.quizzes.new(quiz_params)
+    authorize quiz
+    if quiz.save
       render status: :ok,
         json: { notice: t("successfully_created", entity: "Quiz") }
     else
-      errors = @quiz.errors.full_messages.to_sentence
+      errors = quiz.errors.full_messages.to_sentence
       render status: :unprocessable_entity, json: { error: errors }
     end
   end
@@ -62,7 +62,7 @@ class QuizzesController < ApplicationController
   private
 
     def quiz_params
-      params.require(:quiz).permit(:title, :user_id)
+      params.require(:quiz).permit(:title)
     end
 
     def load_quiz

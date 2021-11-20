@@ -6,9 +6,8 @@ import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
 import quizApi from "apis/quiz";
-import { getFromLocalStorage } from "helpers/storage";
 
-import Container from "../../Common/Conatiner";
+import Container from "../../Common/Container";
 
 const Create = () => {
   const [title, setTitle] = useState("");
@@ -23,7 +22,7 @@ const Create = () => {
       try {
         setLoading(true);
         await quizApi.create({
-          quiz: { title, user_id: getFromLocalStorage("authUserId") },
+          quiz: { title },
         });
         history.push("/dashboard");
       } catch (error) {
@@ -43,9 +42,9 @@ const Create = () => {
           <Button
             iconPosition="left"
             style="text"
-            onClick={() => history.push("/dashboard")}
+            to={"/dashboard"}
             tooltipProps={{
-              content: "Go Bak",
+              content: "Go Back",
               position: "right",
             }}
             icon={() => <LeftArrowCircle size={20} />}
