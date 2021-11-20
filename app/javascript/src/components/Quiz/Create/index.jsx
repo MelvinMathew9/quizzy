@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 
 import quizApi from "apis/quiz";
 
-import Container from "../../Common/Conatiner";
+import Container from "../../Common/Container";
 
 const Create = () => {
   const [title, setTitle] = useState("");

@@ -8,7 +8,7 @@ import { useHistory, useParams } from "react-router";
 import quizApi from "apis/quiz";
 import { getFromLocalStorage } from "helpers/storage";
 
-import Container from "../../Common/Conatiner";
+import Container from "../../Common/Container";
 
 const Edit = () => {
   const [title, setTitle] = useState("");
