@@ -51,7 +51,7 @@ const Dashboard = () => {
           You have not created any quiz
         </Typography>
       ) : (
-        <Quiz data={quizzes} setData={setQuizzes} />
+        <Quiz data={quizzes} fetchQuizzes={fetchQuizzes} />
       )}
     </div>
   );
