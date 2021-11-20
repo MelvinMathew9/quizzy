@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
-import { all, isNil, isEmpty, either } from "ramda";
+import { isNil, isEmpty, either } from "ramda";
 
 import quizApi from "../../apis/quiz";
 import Quiz from "../Quiz";
@@ -43,7 +43,7 @@ const Dashboard = () => {
         icon={() => <Plus size={18} />}
         className="md:self-end self-center"
       />
-      {all(either(isNil, isEmpty), [quizzes]) ? (
+      {either(isNil, isEmpty)[quizzes] ? (
         <Typography
           style="h3"
           className="mt-16 md:mt-40  neeto-ui-text-gray-300 self-center"
