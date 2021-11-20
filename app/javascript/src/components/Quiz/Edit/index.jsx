@@ -15,7 +15,8 @@ const Edit = () => {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { quiz_id } = useParams();
-  const fetchQuizzes = async () => {
+
+  const fetchQuiz = async () => {
     try {
       const response = await quizApi.show(quiz_id);
       setTitle(response.data.quiz.title);
@@ -26,7 +27,7 @@ const Edit = () => {
     }
   };
   useEffect(() => {
-    fetchQuizzes();
+    fetchQuiz();
   }, []);
 
   const handleSubmit = async event => {
