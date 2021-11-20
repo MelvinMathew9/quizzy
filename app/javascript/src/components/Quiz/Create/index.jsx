@@ -42,9 +42,9 @@ const Create = () => {
           <Button
             iconPosition="left"
             style="text"
-            onClick={() => history.push("/dashboard")}
+            to={"/dashboard"}
             tooltipProps={{
-              content: "Go Bak",
+              content: "Go Back",
               position: "right",
             }}
             icon={() => <LeftArrowCircle size={20} />}

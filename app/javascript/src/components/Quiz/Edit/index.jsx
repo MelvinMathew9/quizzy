@@ -60,10 +60,10 @@ const Edit = () => {
             iconPosition="left"
             style="text"
             tooltipProps={{
-              content: "Go Bak",
+              content: "Go Back",
               position: "right",
             }}
-            onClick={() => history.push("/dashboard")}
+            to={"/dashboard"}
             icon={() => <LeftArrowCircle size={20} />}
           />
         </div>
