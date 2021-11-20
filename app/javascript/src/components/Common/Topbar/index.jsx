@@ -35,11 +35,7 @@ const Topbar = ({ isLoggedIn }) => {
         window.location.pathname !== "/login" &&
         !window.location.pathname.includes("public") && (
           <div className="flex space-x-4">
-            <Button
-              style="link"
-              label="Reports"
-              onClick={() => history.push("/reports")}
-            />
+            <Button style="link" label="Reports" to="/reports" />
             <Button style="link" label={getFromLocalStorage("userName")} />
             <Button style="link" label="Logout" onClick={handleLogout} />
           </div>
