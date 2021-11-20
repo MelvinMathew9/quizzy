@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
+import { PageLoader } from "neetoui";
 import { useHistory, useParams } from "react-router";
 
 import { setAuthHeaders } from "apis/axios";
@@ -79,6 +80,14 @@ const Login = () => {
       setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
 
   return (
     <Create
