@@ -19,7 +19,7 @@ import ParticipantLogin from "./components/Participant/Login";
 import Result from "./components/Participant/Result";
 import CreateQuiz from "./components/Quiz/Create";
 import EditQuiz from "./components/Quiz/Edit";
-import Questions from "./components/Quiz/Questions";
+import ShowQuiz from "./components/Quiz/Questions";
 import CreateQuestion from "./components/Quiz/Questions/Create";
 import EditQuestion from "./components/Quiz/Questions/Edit";
 import Report from "./components/Report";
@@ -92,7 +92,7 @@ const App = () => {
             exact
             condition={isLoggedIn}
             path="/quizzes/:quiz_id/show"
-            component={Questions}
+            component={ShowQuiz}
           />
           <PrivateRoute
             exact

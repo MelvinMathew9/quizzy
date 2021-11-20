@@ -12,10 +12,6 @@ class QuizPolicy
     quiz.user_id == user.id && user.role == "administrator"
   end
 
-  def edit?
-    show?
-  end
-
   def update?
     show?
   end
@@ -26,18 +22,5 @@ class QuizPolicy
 
   def destroy?
     show?
-  end
-
-  class Scope
-    attr_reader :user, :scope
-
-    def initialize(user, scope)
-      @user = user
-      @scope = scope
-    end
-
-    def resolve
-      scope.where(user_id: user.id)
-    end
   end
 end

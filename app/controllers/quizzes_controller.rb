@@ -2,13 +2,12 @@
 
 class QuizzesController < ApplicationController
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
   before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[show update destroy]
 
   def index
-    @quizzes = policy_scope(Quiz)
-    render status: :ok, json: { quizzes: @quizzes }
+    quizzes = @current_user.quizzes
+    render status: :ok, json: { quizzes: quizzes }
    end
 
   def create
