@@ -78,7 +78,7 @@ const App = () => {
 
           <PrivateRoute
             exact
-            path="/quizzes/create"
+            path="/quizzes/new"
             condition={isLoggedIn}
             component={CreateQuiz}
           />
@@ -91,7 +91,7 @@ const App = () => {
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/"
+            path="/quizzes/:quiz_id/show"
             component={Questions}
           />
           <PrivateRoute
@@ -103,7 +103,7 @@ const App = () => {
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/create"
+            path="/quizzes/:quiz_id/questions/new"
             component={CreateQuestion}
           />
           <PrivateRoute
