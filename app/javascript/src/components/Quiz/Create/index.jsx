@@ -6,7 +6,6 @@ import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
 import quizApi from "apis/quiz";
-import { getFromLocalStorage } from "helpers/storage";
 
 import Container from "../../Common/Conatiner";
 
@@ -23,7 +22,7 @@ const Create = () => {
       try {
         setLoading(true);
         await quizApi.create({
-          quiz: { title, user_id: getFromLocalStorage("authUserId") },
+          quiz: { title },
         });
         history.push("/dashboard");
       } catch (error) {
