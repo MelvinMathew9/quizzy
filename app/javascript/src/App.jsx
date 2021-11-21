@@ -12,6 +12,7 @@ import { getFromLocalStorage } from "helpers/storage";
 import PrivateRoute from "./components/Common/PrivateRoute";
 import Topbar from "./components/Common/Topbar";
 import Dashboard from "./components/Dashboard";
+import Fallback from "./components/Fallback";
 import Login from "./components/Login";
 import Participant from "./components/Participant";
 import Attempt from "./components/Participant/Attempt";
@@ -113,11 +114,13 @@ const App = () => {
             component={EditQuestion}
           />
           <PrivateRoute
+            exact
             path="/"
             redirectRoute="/login"
             condition={isLoggedIn}
             component={Dashboard}
           />
+          <Route component={Fallback} />
         </Switch>
       </ParticipantContext.Provider>
     </Router>
