@@ -6,8 +6,7 @@ import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
 import quizApi from "apis/quiz";
-
-import Container from "../../Common/Container";
+import Container from "common/Container";
 
 const Create = () => {
   const [title, setTitle] = useState("");

@@ -6,9 +6,8 @@ import toast from "react-hot-toast";
 import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
+import Container from "common/Container";
 import { getFromLocalStorage } from "helpers/storage";
-
-import Container from "../../Common/Container";
 
 const Edit = () => {
   const [title, setTitle] = useState("");

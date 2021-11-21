@@ -4,7 +4,8 @@ import { Plus } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 
-import quizApi from "../../apis/quiz";
+import quizApi from "apis/quiz";
+
 import Quiz from "../Quiz";
 
 const Dashboard = () => {

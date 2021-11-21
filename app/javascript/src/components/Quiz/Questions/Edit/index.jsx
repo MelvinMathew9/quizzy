@@ -9,8 +9,8 @@ import { useHistory, useLocation, useParams } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
+import Container from "common/Container";
 
-import Container from "../../../Common/Container";
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
 const Edit = () => {
