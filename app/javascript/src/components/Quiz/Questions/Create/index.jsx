@@ -36,7 +36,7 @@ const Create = () => {
           questions: {
             question: values.question,
             quiz_id: id,
-            list: values.options.map(option => {
+            options_attributes: values.options.map(option => {
               return {
                 content: option,
                 is_answer: option === values?.answer?.value,
@@ -44,7 +44,7 @@ const Create = () => {
             }),
           },
         });
-        history.push(`/quizzes/${quiz_id}/questions`);
+        history.push(`/quizzes/${quiz_id}/show`);
       } catch (error) {
         logger.error(error);
       }
