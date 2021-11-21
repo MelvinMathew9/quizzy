@@ -5,7 +5,7 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
@@ -15,7 +15,8 @@ import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
 const Create = () => {
   const [id, setId] = useState(null);
-  const { quiz_id } = useParams();
+  const location = useLocation();
+  const quiz_id = location.state.quizId;
   const history = useHistory();
   const fetchQuiz = async () => {
     try {
@@ -74,7 +75,7 @@ const Create = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/questions`}
+                  to={`/quizzes/${quiz_id}/show`}
                   icon={LeftArrowCircle}
                 />
               </div>

@@ -104,13 +104,13 @@ const App = () => {
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/new"
+            path="/questions/new"
             component={CreateQuestion}
           />
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/:question_id/edit"
+            path="/questions/:question_id/edit"
             component={EditQuestion}
           />
           <PrivateRoute

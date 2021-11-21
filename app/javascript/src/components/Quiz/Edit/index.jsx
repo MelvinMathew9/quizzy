@@ -63,7 +63,7 @@ const Edit = () => {
               content: "Go Back",
               position: "right",
             }}
-            to={"/dashboard"}
+            to={"/"}
             icon={LeftArrowCircle}
           />
         </div>

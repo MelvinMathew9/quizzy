@@ -5,7 +5,7 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
@@ -17,7 +17,9 @@ const Edit = () => {
   const [loading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState(null);
   const history = useHistory();
-  const { quiz_id, question_id } = useParams();
+  const { question_id } = useParams();
+  const locations = useLocation();
+  const quiz_id = locations.state.quizId;
   let defaultValues = FORM_INITIAL_VALUES;
   let data = quiz ? quiz.questions.find(q => q.id == question_id) : {};
   defaultValues = {
@@ -99,7 +101,7 @@ const Edit = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/questions`}
+                  to={`/quizzes/${quiz_id}/show`}
                   icon={LeftArrowCircle}
                 />
               </div>

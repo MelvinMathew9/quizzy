@@ -42,7 +42,7 @@ const Create = () => {
           <Button
             iconPosition="left"
             style="text"
-            to={"/dashboard"}
+            to={"/"}
             tooltipProps={{
               content: "Go Back",
               position: "right",
