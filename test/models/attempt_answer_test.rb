@@ -8,7 +8,9 @@ class AttemptAnswerTest < ActiveSupport::TestCase
       first_name: "Sam", last_name: "Smith", email: "sam@example.com", password: "welcome",
       password_confirmation: "welcome", role: "administrator")
     @quiz = Quiz.new(title: "test title", slug: "test-title", user: @user)
-    @question = Question.new(question: "Question 1", quiz: @quiz)
+    @question = Question.new(
+      question: "Question 1", quiz: @quiz,
+      options_attributes: [{ content: "1", is_answer: true }, { content: "2", is_answer: false }])
     @attempt = Attempt.new(quiz: @quiz, user: @user)
     @attempt_answer = AttemptAnswer.new(answer: "test", question: @question, attempt: @attempt)
   end
