@@ -75,7 +75,7 @@ const Create = () => {
                     position: "right",
                   }}
                   to={`/quizzes/${quiz_id}/questions`}
-                  icon={() => <LeftArrowCircle size={20} />}
+                  icon={LeftArrowCircle}
                 />
               </div>
               <Textarea
@@ -113,7 +113,7 @@ const Create = () => {
                               placeholder={`Add option ${index + 1}`}
                             />
                             <Button
-                              icon={() => <Minus />}
+                              icon={Minus}
                               onClick={() => arrayHelpers.remove(index)}
                             />
                           </div>
@@ -124,7 +124,7 @@ const Create = () => {
                           iconPosition="left"
                           label="Add option"
                           onClick={() => arrayHelpers.push("")}
-                          icon={() => <Plus size={16} />}
+                          icon={Plus}
                           style="link"
                           className="self-start"
                         />

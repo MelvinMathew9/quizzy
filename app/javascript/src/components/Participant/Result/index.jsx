@@ -49,7 +49,7 @@ const Result = () => {
         <Button
           style="secondary"
           label={`${score?.correct_answers_count}`}
-          icon={() => <CheckCircle size={16} />}
+          icon={CheckCircle}
         />
         <Button
           label={`${score?.incorrect_answers_count}`}

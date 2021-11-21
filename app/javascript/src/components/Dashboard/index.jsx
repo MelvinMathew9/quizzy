@@ -40,7 +40,7 @@ const Dashboard = () => {
         label="Add new quiz"
         to={"/quizzes/new"}
         iconPosition="left"
-        icon={() => <Plus size={18} />}
+        icon={Plus}
         className="md:self-end self-center"
       />
       {either(isNil, isEmpty)[quizzes] ? (

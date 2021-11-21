@@ -62,7 +62,7 @@ const Questions = () => {
           label="Add questions"
           to={`/quizzes/${quiz_id}/questions/new`}
           iconPosition="left"
-          icon={() => <Plus size={18} />}
+          icon={Plus}
           className="md:self-end self-center"
         />
         {quiz.questions.length ? (

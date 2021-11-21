@@ -89,7 +89,7 @@ const Report = () => {
 
             <Button
               label="Download"
-              icon={() => <Download size={16} />}
+              icon={Download}
               onClick={handleExport}
               className="md:self-end self-center space-x-2"
             />

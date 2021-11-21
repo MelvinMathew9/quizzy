@@ -47,7 +47,7 @@ const Create = () => {
               content: "Go Back",
               position: "right",
             }}
-            icon={() => <LeftArrowCircle size={20} />}
+            icon={LeftArrowCircle}
           />
         </div>
         <Input

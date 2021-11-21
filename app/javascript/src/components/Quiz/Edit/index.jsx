@@ -64,7 +64,7 @@ const Edit = () => {
               position: "right",
             }}
             to={"/dashboard"}
-            icon={() => <LeftArrowCircle size={20} />}
+            icon={LeftArrowCircle}
           />
         </div>
         <Input

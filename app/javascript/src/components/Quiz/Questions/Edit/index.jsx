@@ -100,7 +100,7 @@ const Edit = () => {
                     position: "right",
                   }}
                   to={`/quizzes/${quiz_id}/questions`}
-                  icon={() => <LeftArrowCircle size={20} />}
+                  icon={LeftArrowCircle}
                 />
               </div>
               <Textarea
