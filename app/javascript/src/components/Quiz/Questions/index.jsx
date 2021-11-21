@@ -33,9 +33,7 @@ const Questions = () => {
 
   const handlePublish = async () => {
     try {
-      await quizApi.update(quiz_id, {
-        publish: true,
-      });
+      await quizApi.publish(quiz_id);
       setPublish(true);
     } catch (error) {
       logger.error(error);

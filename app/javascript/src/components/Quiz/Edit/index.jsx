@@ -41,7 +41,7 @@ const EditQuiz = () => {
           publish: false,
           quiz: { title, user_id: getFromLocalStorage("authUserId") },
         });
-        history.push("/dashboard");
+        history.push("/");
       } catch (error) {
         logger.error(error);
       } finally {

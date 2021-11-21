@@ -23,7 +23,7 @@ const CreateQuiz = () => {
         await quizApi.create({
           quiz: { title },
         });
-        history.push("/dashboard");
+        history.push("/");
       } catch (error) {
         logger.error(error);
       } finally {
