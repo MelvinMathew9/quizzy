@@ -11,12 +11,13 @@ import { getFromLocalStorage } from "helpers/storage";
 
 const Edit = () => {
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { quiz_id } = useParams();
 
   const fetchQuiz = async () => {
     try {
+      setLoading(true);
       const response = await quizApi.show(quiz_id);
       setTitle(response.data.quiz.title);
     } catch (error) {

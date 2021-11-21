@@ -8,37 +8,35 @@ import toast from "react-hot-toast";
 import { useHistory, useLocation, useParams } from "react-router";
 
 import questionApi from "apis/questions";
-import quizApi from "apis/quiz";
 import Container from "common/Container";
 
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
 const Edit = () => {
-  const [loading, setLoading] = useState(false);
-  const [quiz, setQuiz] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [question, setQuestion] = useState({});
   const history = useHistory();
   const { question_id } = useParams();
   const locations = useLocation();
   const quiz_id = locations.state.quizId;
   let defaultValues = FORM_INITIAL_VALUES;
-  let data = quiz ? quiz.questions.find(q => q.id == question_id) : {};
   defaultValues = {
-    answer: data?.options
+    answer: question?.options
       ? {
-          label: data?.options.find(option => option.is_answer).content,
-          value: data?.options.find(option => option.is_answer).content,
+          label: question?.options.find(option => option.is_answer).content,
+          value: question?.options.find(option => option.is_answer).content,
         }
       : "",
-    question: data?.question ? data?.question : "",
-    options: data?.options
-      ? data?.options.map(option => option.content)
+    question: question?.question ? question?.question : "",
+    options: question?.options
+      ? question?.options.map(option => option.content)
       : ["", ""],
   };
   const fetchQuiz = async () => {
     try {
       setLoading(true);
-      const response = await quizApi.show(quiz_id);
-      setQuiz(response.data.quiz);
+      const response = await questionApi.show(question_id);
+      setQuestion(response.data?.question);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -55,7 +53,7 @@ const Edit = () => {
         await questionApi.update(question_id, {
           questions: {
             question: values?.question,
-            quiz_id: quiz.id,
+            quiz_id: quiz_id,
             options_attributes: values?.options?.map(option => {
               return {
                 content: option,

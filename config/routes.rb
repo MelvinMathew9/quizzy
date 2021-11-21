@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   defaults format: :json do
     resource :session, only: %i[create destroy]
     resources :quizzes, except: %i[edit]
-    resources :questions, only: %i[create update destroy]
+    resources :questions, except: %i[edit index]
     resources :reports, only: %i[index]
 
     namespace :public do

@@ -3,7 +3,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[create update]
-  before_action :load_question, only: %i[destroy update]
+  before_action :load_question, only: %i[destroy show update]
 
   def create
     question = Question.new(question_params)
@@ -13,6 +13,10 @@ class QuestionsController < ApplicationController
       errors = question.errors.full_messages.to_sentence
       render status: :unprocessable_entity, json: { error: errors }
     end
+  end
+
+  def show
+    render status: :ok, json: { question: { question: @question.question, options: @question.options } }
   end
 
   def update
