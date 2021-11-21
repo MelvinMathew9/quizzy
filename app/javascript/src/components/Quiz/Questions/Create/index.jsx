@@ -13,7 +13,7 @@ import Container from "common/Container";
 
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
-const Create = () => {
+const CreateQuestion = () => {
   const [id, setId] = useState(null);
   const location = useLocation();
   const quiz_id = location.state.quizId;
@@ -160,4 +160,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateQuestion;

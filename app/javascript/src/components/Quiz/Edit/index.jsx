@@ -9,7 +9,7 @@ import quizApi from "apis/quiz";
 import Container from "common/Container";
 import { getFromLocalStorage } from "helpers/storage";
 
-const Edit = () => {
+const EditQuiz = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(true);
   const history = useHistory();
@@ -86,4 +86,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditQuiz;

@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 import quizApi from "apis/quiz";
 import Container from "common/Container";
 
-const Create = () => {
+const CreateQuiz = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -67,4 +67,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateQuiz;

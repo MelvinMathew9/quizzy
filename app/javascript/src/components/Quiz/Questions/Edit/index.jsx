@@ -12,7 +12,7 @@ import Container from "common/Container";
 
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
-const Edit = () => {
+const EditQuestion = () => {
   const [loading, setLoading] = useState(true);
   const [question, setQuestion] = useState({});
   const history = useHistory();
@@ -184,4 +184,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditQuestion;
