@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
-import { Plus, Minus, LeftArrowCircle } from "neetoicons";
+import { Plus, Delete, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
@@ -115,7 +115,8 @@ const CreateQuestion = () => {
                               placeholder={`Add option ${index + 1}`}
                             />
                             <Button
-                              icon={Minus}
+                              style="text"
+                              icon={Delete}
                               onClick={() => arrayHelpers.remove(index)}
                             />
                           </div>
