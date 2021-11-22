@@ -6,10 +6,9 @@ import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 
 import quizApi from "apis/quiz";
+import Container from "common/Container";
 
-import Container from "../../Common/Container";
-
-const Create = () => {
+const CreateQuiz = () => {
   const [title, setTitle] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -24,7 +23,7 @@ const Create = () => {
         await quizApi.create({
           quiz: { title },
         });
-        history.push("/dashboard");
+        history.push("/");
       } catch (error) {
         logger.error(error);
       } finally {
@@ -42,12 +41,12 @@ const Create = () => {
           <Button
             iconPosition="left"
             style="text"
-            to={"/dashboard"}
+            to={"/"}
             tooltipProps={{
               content: "Go Back",
               position: "right",
             }}
-            icon={() => <LeftArrowCircle size={20} />}
+            icon={LeftArrowCircle}
           />
         </div>
         <Input
@@ -68,4 +67,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateQuiz;

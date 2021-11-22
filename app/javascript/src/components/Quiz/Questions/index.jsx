@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import { Plus } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
-import { useParams } from "react-router";
+import { isEmpty } from "ramda";
+import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
 
@@ -16,6 +17,7 @@ const Questions = () => {
   const [loading, setLoading] = useState(true);
   const [modal, setShowModal] = useState(false);
   const [publish, setPublish] = useState(false);
+  const history = useHistory();
   const { quiz_id } = useParams();
 
   const fetchQuiz = async () => {
@@ -31,9 +33,7 @@ const Questions = () => {
 
   const handlePublish = async () => {
     try {
-      await quizApi.update(quiz_id, {
-        publish: true,
-      });
+      await quizApi.publish(quiz_id);
       setPublish(true);
     } catch (error) {
       logger.error(error);
@@ -57,23 +57,25 @@ const Questions = () => {
         <Typography style="h2" className="flex-grow text-gray-700">
           {quiz.title}
         </Typography>
-
         <Button
           label="Add questions"
-          to={`/quizzes/${quiz_id}/questions/new`}
+          onClick={() =>
+            history.push({
+              pathname: `/questions/new`,
+              state: { quizId: quiz_id },
+            })
+          }
           iconPosition="left"
-          icon={() => <Plus size={18} />}
+          icon={Plus}
           className="md:self-end self-center"
         />
-        {quiz.questions.length ? (
+        {!isEmpty(quiz.questions) && (
           <Button
             label={quiz?.slug || publish ? "Published" : "Publish"}
             onClick={handlePublish}
             disabled={quiz?.slug || publish ? true : false}
             className="md:self-end self-center"
           />
-        ) : (
-          ""
         )}
       </div>
       {quiz?.slug && (

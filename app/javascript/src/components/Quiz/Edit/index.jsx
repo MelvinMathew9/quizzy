@@ -6,18 +6,18 @@ import toast from "react-hot-toast";
 import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
+import Container from "common/Container";
 import { getFromLocalStorage } from "helpers/storage";
 
-import Container from "../../Common/Container";
-
-const Edit = () => {
+const EditQuiz = () => {
   const [title, setTitle] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { quiz_id } = useParams();
 
   const fetchQuiz = async () => {
     try {
+      setLoading(true);
       const response = await quizApi.show(quiz_id);
       setTitle(response.data.quiz.title);
     } catch (error) {
@@ -41,7 +41,7 @@ const Edit = () => {
           publish: false,
           quiz: { title, user_id: getFromLocalStorage("authUserId") },
         });
-        history.push("/dashboard");
+        history.push("/");
       } catch (error) {
         logger.error(error);
       } finally {
@@ -63,8 +63,8 @@ const Edit = () => {
               content: "Go Back",
               position: "right",
             }}
-            to={"/dashboard"}
-            icon={() => <LeftArrowCircle size={20} />}
+            to={"/"}
+            icon={LeftArrowCircle}
           />
         </div>
         <Input
@@ -86,4 +86,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditQuiz;

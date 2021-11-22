@@ -2,13 +2,12 @@
 
 class QuizzesController < ApplicationController
   after_action :verify_authorized, except: :index
-  after_action :verify_policy_scoped, only: :index
   before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[show update destroy]
 
   def index
-    @quizzes = policy_scope(Quiz)
-    render status: :ok, json: { quizzes: @quizzes }
+    quizzes = @current_user.quizzes.order("created_at DESC")
+    render status: :ok, json: { quizzes: quizzes }
    end
 
   def create
@@ -25,32 +24,33 @@ class QuizzesController < ApplicationController
 
   def show
     authorize @quiz
-    @questions = @quiz.questions.map { |q| { id: q.id, question: q.question, options: q.options } }
+    @questions = @quiz.questions.select(:id, :question, :options)
   end
 
   def update
     authorize @quiz
-    if params[:publish]
-      slug = Quiz.set_slug(@quiz.title)
-      if @quiz.update(slug: slug)
-        render status: :ok, json: { notice: t("successfully_published", entity: "Quiz") }
-      else
-        render status: :unprocessable_entity,
-          json: { error: @quiz.errors.full_messages.to_sentence }
-      end
+    if @quiz.update(quiz_params)
+      render status: :ok, json: { notice: t("successfully_updated", entity: "Quiz") }
     else
-      if @quiz.update(quiz_params)
-        render status: :ok, json: { notice: t("successfully_updated", entity: "Quiz") }
-      else
-        render status: :unprocessable_entity,
-          json: { error: @quiz.errors.full_messages.to_sentence }
-      end
+      render status: :unprocessable_entity,
+        json: { error: @quiz.errors.full_messages.to_sentence }
+    end
+  end
+
+  def publish
+    quiz = Quiz.find(params[:id])
+    authorize quiz
+    slug = Quiz.set_slug(quiz.title)
+    if quiz.update(slug: slug)
+      render status: :ok, json: { notice: t("successfully_published", entity: "Quiz") }
+    else
+      render status: :unprocessable_entity,
+        json: { error: quiz.errors.full_messages.to_sentence }
     end
   end
 
   def destroy
     authorize @quiz
-
     if @quiz.destroy
       render status: :ok, json: { notice: t("successfully_deleted", entity: "Quiz") }
     else

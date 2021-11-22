@@ -3,15 +3,11 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user_using_x_auth_token
   before_action :load_quiz, only: %i[create update]
-  before_action :load_question, only: %i[destroy update]
+  before_action :load_question, only: %i[destroy show update]
 
   def create
-    question = @quiz.questions.new({ question: question_params[:question], quiz_id: question_params[:quiz_id] })
+    question = Question.new(question_params)
     if question.save!
-      question_params[:list].each do |option|
-        option = question.options.new(option.merge(question_id: question.id))
-        option.save
-      end
       render status: :ok, json: { notice: t("successfully_created", entity: "Question") }
     else
       errors = question.errors.full_messages.to_sentence
@@ -19,13 +15,12 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def show
+    render status: :ok, json: { question: { question: @question.question, options: @question.options } }
+  end
+
   def update
-    @question.options.destroy_all
-    if @question.update({ question: question_params[:question] })
-      question_params[:list].each do |option|
-        option = @question.options.new(option.merge(question_id: @question.id))
-        option.save
-      end
+    if @question.update(question_params)
       render status: :ok, json: { notice: t("successfully_updated", entity: "Question") }
     else
       render status: :unprocessable_entity,
@@ -45,7 +40,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:questions).permit(:question, :quiz_id, list: [:content, :is_answer])
+      params.require(:questions).permit(:question, :quiz_id, options_attributes: [:id, :content, :is_answer, :_destroy])
     end
 
     def load_quiz

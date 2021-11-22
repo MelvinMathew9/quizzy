@@ -5,17 +5,18 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation } from "react-router";
 
 import questionApi from "apis/questions";
 import quizApi from "apis/quiz";
+import Container from "common/Container";
 
-import Container from "../../../Common/Container";
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
-const Create = () => {
+const CreateQuestion = () => {
   const [id, setId] = useState(null);
-  const { quiz_id } = useParams();
+  const location = useLocation();
+  const quiz_id = location.state.quizId;
   const history = useHistory();
   const fetchQuiz = async () => {
     try {
@@ -36,7 +37,7 @@ const Create = () => {
           questions: {
             question: values.question,
             quiz_id: id,
-            list: values.options.map(option => {
+            options_attributes: values.options.map(option => {
               return {
                 content: option,
                 is_answer: option === values?.answer?.value,
@@ -44,7 +45,7 @@ const Create = () => {
             }),
           },
         });
-        history.push(`/quizzes/${quiz_id}/questions`);
+        history.push(`/quizzes/${quiz_id}/show`);
       } catch (error) {
         logger.error(error);
       }
@@ -74,8 +75,8 @@ const Create = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/questions`}
-                  icon={() => <LeftArrowCircle size={20} />}
+                  to={`/quizzes/${quiz_id}/show`}
+                  icon={LeftArrowCircle}
                 />
               </div>
               <Textarea
@@ -92,6 +93,7 @@ const Create = () => {
                         if (index < 2) {
                           return (
                             <Input
+                              required
                               key={index}
                               label={`Option ${index + 1}`}
                               name={`options.${index}`}
@@ -113,7 +115,7 @@ const Create = () => {
                               placeholder={`Add option ${index + 1}`}
                             />
                             <Button
-                              icon={() => <Minus />}
+                              icon={Minus}
                               onClick={() => arrayHelpers.remove(index)}
                             />
                           </div>
@@ -124,7 +126,7 @@ const Create = () => {
                           iconPosition="left"
                           label="Add option"
                           onClick={() => arrayHelpers.push("")}
-                          icon={() => <Plus size={16} />}
+                          icon={Plus}
                           style="link"
                           className="self-start"
                         />
@@ -132,13 +134,14 @@ const Create = () => {
                     </div>
                   )}
                 />
-
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values.options.map(option => {
-                    return { label: option, value: option };
-                  })}
+                  options={values.options
+                    .filter(option => option)
+                    .map(option => {
+                      return { label: option, value: option };
+                    })}
                   placeholder="Select correct option"
                 />
 
@@ -159,4 +162,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default CreateQuestion;

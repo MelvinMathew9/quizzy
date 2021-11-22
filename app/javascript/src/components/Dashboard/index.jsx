@@ -4,7 +4,8 @@ import { Plus } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
 import { isNil, isEmpty, either } from "ramda";
 
-import quizApi from "../../apis/quiz";
+import quizApi from "apis/quiz";
+
 import Quiz from "../Quiz";
 
 const Dashboard = () => {
@@ -40,7 +41,7 @@ const Dashboard = () => {
         label="Add new quiz"
         to={"/quizzes/new"}
         iconPosition="left"
-        icon={() => <Plus size={18} />}
+        icon={Plus}
         className="md:self-end self-center"
       />
       {either(isNil, isEmpty)[quizzes] ? (

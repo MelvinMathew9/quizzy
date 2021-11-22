@@ -5,38 +5,38 @@ import { Plus, Minus, LeftArrowCircle } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
 import toast from "react-hot-toast";
-import { useHistory, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 
 import questionApi from "apis/questions";
-import quizApi from "apis/quiz";
+import Container from "common/Container";
 
-import Container from "../../../Common/Container";
 import { FORM_INITIAL_VALUES, FORM_VALIDATIONS } from "../constants";
 
-const Edit = () => {
-  const [loading, setLoading] = useState(false);
-  const [quiz, setQuiz] = useState(null);
+const EditQuestion = () => {
+  const [loading, setLoading] = useState(true);
+  const [question, setQuestion] = useState({});
   const history = useHistory();
-  const { quiz_id, question_id } = useParams();
+  const { question_id } = useParams();
+  const locations = useLocation();
+  const quiz_id = locations.state.quizId;
   let defaultValues = FORM_INITIAL_VALUES;
-  let data = quiz ? quiz.questions.find(q => q.id == question_id) : {};
   defaultValues = {
-    answer: data?.options
+    answer: question?.options
       ? {
-          label: data?.options.find(option => option.is_answer).content,
-          value: data?.options.find(option => option.is_answer).content,
+          label: question?.options.find(option => option.is_answer).content,
+          value: question?.options.find(option => option.is_answer).content,
         }
       : "",
-    question: data?.question ? data?.question : "",
-    options: data?.options
-      ? data?.options.map(option => option.content)
+    question: question?.question ? question?.question : "",
+    options: question?.options
+      ? question?.options.map(option => option.content)
       : ["", ""],
   };
   const fetchQuiz = async () => {
     try {
       setLoading(true);
-      const response = await quizApi.show(quiz_id);
-      setQuiz(response.data.quiz);
+      const response = await questionApi.show(question_id);
+      setQuestion(response.data?.question);
     } catch (error) {
       logger.error(error);
     } finally {
@@ -48,21 +48,50 @@ const Edit = () => {
   }, []);
 
   const handleSubmit = async values => {
+    const setOptionAttributes = () => {
+      let newOptions = [];
+      const optionValues = [...values.options];
+      const options = question?.options.map((option, index) => {
+        const newContent = optionValues[index];
+        if (newContent) {
+          return {
+            id: option.id,
+            content: newContent,
+            is_answer: newContent === values?.answer?.value,
+          };
+        }
+
+        return {
+          id: option.id,
+          is_answer: false,
+          _destroy: "1",
+        };
+      });
+      if (question?.options.length < optionValues.length) {
+        newOptions = optionValues
+          .splice(question?.options.length)
+          .map(option => {
+            return {
+              content: option,
+              is_answer: option === values?.answer?.value,
+            };
+          });
+      }
+
+      return [...options, ...newOptions];
+    };
+    const formattedOption = setOptionAttributes();
+
     if (values.options.includes(values?.answer?.value)) {
       try {
         await questionApi.update(question_id, {
           questions: {
             question: values?.question,
-            quiz_id: quiz.id,
-            list: values?.options?.map(option => {
-              return {
-                content: option,
-                is_answer: option === values?.answer?.value,
-              };
-            }),
+            quiz_id: quiz_id,
+            options_attributes: formattedOption,
           },
         });
-        history.push(`/quizzes/${quiz_id}/questions`);
+        history.push(`/quizzes/${quiz_id}/show`);
       } catch (error) {
         logger.error(error);
       }
@@ -99,8 +128,8 @@ const Edit = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/questions`}
-                  icon={() => <LeftArrowCircle size={20} />}
+                  to={`/quizzes/${quiz_id}/show`}
+                  icon={LeftArrowCircle}
                 />
               </div>
               <Textarea
@@ -117,6 +146,7 @@ const Edit = () => {
                         if (index < 2) {
                           return (
                             <Input
+                              required
                               key={index}
                               label={`Option ${index + 1}`}
                               name={`options.${index}`}
@@ -138,7 +168,7 @@ const Edit = () => {
                               placeholder={`Add option ${index + 1}`}
                             />
                             <Button
-                              icon={() => <Minus />}
+                              icon={Minus}
                               onClick={() => arrayHelpers.remove(index)}
                             />
                           </div>
@@ -161,9 +191,11 @@ const Edit = () => {
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values?.options?.map(option => {
-                    return { label: option, value: option };
-                  })}
+                  options={values.options
+                    .filter(option => option)
+                    .map(option => {
+                      return { label: option, value: option };
+                    })}
                   placeholder="Select correct option"
                 />
 
@@ -184,4 +216,4 @@ const Edit = () => {
   );
 };
 
-export default Edit;
+export default EditQuestion;

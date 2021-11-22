@@ -6,23 +6,24 @@ import { Toaster } from "react-hot-toast";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 import { setAuthHeaders, registerIntercepts } from "apis/axios";
-import { initializeLogger } from "common/logger";
+import PrivateRoute from "common/PrivateRoute";
+import Topbar from "common/Topbar";
+import Dashboard from "components/Dashboard";
+import Fallback from "components/Fallback";
+import Login from "components/Login";
+import Participant from "components/Participant";
+import Attempt from "components/Participant/Attempt";
+import ParticipantLogin from "components/Participant/Login";
+import Result from "components/Participant/Result";
+import CreateQuiz from "components/Quiz/Create";
+import EditQuiz from "components/Quiz/Edit";
+import ShowQuiz from "components/Quiz/Questions";
+import CreateQuestion from "components/Quiz/Questions/Create";
+import EditQuestion from "components/Quiz/Questions/Edit";
+import Report from "components/Report";
 import { getFromLocalStorage } from "helpers/storage";
 
-import PrivateRoute from "./components/Common/PrivateRoute";
-import Topbar from "./components/Common/Topbar";
-import Dashboard from "./components/Dashboard";
-import Login from "./components/Login";
-import Participant from "./components/Participant";
-import Attempt from "./components/Participant/Attempt";
-import ParticipantLogin from "./components/Participant/Login";
-import Result from "./components/Participant/Result";
-import CreateQuiz from "./components/Quiz/Create";
-import EditQuiz from "./components/Quiz/Edit";
-import Questions from "./components/Quiz/Questions";
-import CreateQuestion from "./components/Quiz/Questions/Create";
-import EditQuestion from "./components/Quiz/Questions/Edit";
-import Report from "./components/Report";
+import { initializeLogger } from "./common/logger";
 import { ParticipantContext } from "./contexts/ParticipantContext";
 
 const App = () => {
@@ -92,7 +93,7 @@ const App = () => {
             exact
             condition={isLoggedIn}
             path="/quizzes/:quiz_id/show"
-            component={Questions}
+            component={ShowQuiz}
           />
           <PrivateRoute
             exact
@@ -103,21 +104,23 @@ const App = () => {
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/new"
+            path="/questions/new"
             component={CreateQuestion}
           />
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/questions/:question_id/edit"
+            path="/questions/:question_id/edit"
             component={EditQuestion}
           />
           <PrivateRoute
+            exact
             path="/"
             redirectRoute="/login"
             condition={isLoggedIn}
             component={Dashboard}
           />
+          <Route component={Fallback} />
         </Switch>
       </ParticipantContext.Provider>
     </Router>

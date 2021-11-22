@@ -2,10 +2,11 @@ import React from "react";
 
 import { Highlight, Delete, CheckCircle } from "neetoicons";
 import { Button, Typography, Tag } from "neetoui";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 
-const Show = ({ data, index, setShowModal, setQuestion }) => {
+const ShowComponent = ({ data, index, setShowModal, setQuestion }) => {
   const { quiz_id } = useParams();
+  const history = useHistory();
   const handleDelete = question => {
     setQuestion(question);
     setShowModal(true);
@@ -26,7 +27,12 @@ const Show = ({ data, index, setShowModal, setQuestion }) => {
             style="secondary"
             icon={Highlight}
             iconPosition="left"
-            to={`/quizzes/${quiz_id}/questions/${data.id}/edit`}
+            onClick={() =>
+              history.push({
+                pathname: `/questions/${data.id}/edit`,
+                state: { quizId: quiz_id },
+              })
+            }
             label="Edit"
           ></Button>
           <Button
@@ -54,4 +60,4 @@ const Show = ({ data, index, setShowModal, setQuestion }) => {
     </div>
   );
 };
-export default Show;
+export default ShowComponent;
