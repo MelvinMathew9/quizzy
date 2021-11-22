@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { LeftArrowCircle } from "neetoicons";
-import { Typography, Input, Button } from "neetoui";
+import { Typography, Input, Button, PageLoader } from "neetoui";
 import toast from "react-hot-toast";
 import { useHistory, useParams } from "react-router";
 
@@ -49,6 +49,14 @@ const EditQuiz = () => {
       }
     }
   };
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <PageLoader />
+      </div>
+    );
+  }
+
   return (
     <Container>
       <div className="max-w-lg mx-auto py-10 px-4 space-y-4">

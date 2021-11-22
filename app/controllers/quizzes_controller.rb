@@ -24,7 +24,7 @@ class QuizzesController < ApplicationController
 
   def show
     authorize @quiz
-    @questions = @quiz.questions.select(:id, :question, :options)
+    @questions = @quiz.questions.map { |q| { id: q.id, question: q.question, options: q.options } }
   end
 
   def update
