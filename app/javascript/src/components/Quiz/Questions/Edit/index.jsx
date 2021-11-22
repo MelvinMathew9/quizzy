@@ -48,18 +48,45 @@ const EditQuestion = () => {
   }, []);
 
   const handleSubmit = async values => {
+    const setOptionAttributes = () => {
+      let newOptions = [];
+      const options = question?.options.map((option, index) => {
+        const newContent = values?.options[index];
+        if (newContent) {
+          return {
+            id: option.id,
+            content: newContent,
+            is_answer: newContent === values?.answer?.value,
+          };
+        }
+
+        return {
+          id: option.id,
+          is_answer: false,
+          _destroy: "1",
+        };
+      });
+      if (question?.options.length < values?.options.length) {
+        newOptions = values?.options
+          .splice(question?.options.length)
+          .map(option => {
+            return {
+              content: option,
+              is_answer: option === values?.answer?.value,
+            };
+          });
+      }
+
+      return [...options, ...newOptions];
+    };
+    const formattedOption = setOptionAttributes();
     if (values.options.includes(values?.answer?.value)) {
       try {
         await questionApi.update(question_id, {
           questions: {
             question: values?.question,
             quiz_id: quiz_id,
-            options_attributes: values?.options?.map(option => {
-              return {
-                content: option,
-                is_answer: option === values?.answer?.value,
-              };
-            }),
+            options_attributes: formattedOption,
           },
         });
         history.push(`/quizzes/${quiz_id}/show`);
@@ -117,6 +144,7 @@ const EditQuestion = () => {
                         if (index < 2) {
                           return (
                             <Input
+                              required
                               key={index}
                               label={`Option ${index + 1}`}
                               name={`options.${index}`}
@@ -138,7 +166,7 @@ const EditQuestion = () => {
                               placeholder={`Add option ${index + 1}`}
                             />
                             <Button
-                              icon={() => <Minus />}
+                              icon={Minus}
                               onClick={() => arrayHelpers.remove(index)}
                             />
                           </div>

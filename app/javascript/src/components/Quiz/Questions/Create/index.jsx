@@ -93,6 +93,7 @@ const CreateQuestion = () => {
                         if (index < 2) {
                           return (
                             <Input
+                              required
                               key={index}
                               label={`Option ${index + 1}`}
                               name={`options.${index}`}

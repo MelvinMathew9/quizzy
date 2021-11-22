@@ -20,7 +20,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.options.destroy_all
     if @question.update(question_params)
       render status: :ok, json: { notice: t("successfully_updated", entity: "Question") }
     else
@@ -41,7 +40,7 @@ class QuestionsController < ApplicationController
   private
 
     def question_params
-      params.require(:questions).permit(:question, :quiz_id, options_attributes: [:id, :content, :is_answer])
+      params.require(:questions).permit(:question, :quiz_id, options_attributes: [:id, :content, :is_answer, :_destroy])
     end
 
     def load_quiz
