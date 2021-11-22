@@ -50,8 +50,9 @@ const EditQuestion = () => {
   const handleSubmit = async values => {
     const setOptionAttributes = () => {
       let newOptions = [];
+      const optionValues = [...values.options];
       const options = question?.options.map((option, index) => {
-        const newContent = values?.options[index];
+        const newContent = optionValues[index];
         if (newContent) {
           return {
             id: option.id,
@@ -66,8 +67,8 @@ const EditQuestion = () => {
           _destroy: "1",
         };
       });
-      if (question?.options.length < values?.options.length) {
-        newOptions = values?.options
+      if (question?.options.length < optionValues.length) {
+        newOptions = optionValues
           .splice(question?.options.length)
           .map(option => {
             return {
@@ -80,10 +81,8 @@ const EditQuestion = () => {
       return [...options, ...newOptions];
     };
     const formattedOption = setOptionAttributes();
-    if (
-      values.options.includes(values?.answer?.value) &&
-      values?.answer?.value
-    ) {
+
+    if (values.options.includes(values?.answer?.value)) {
       try {
         await questionApi.update(question_id, {
           questions: {
@@ -192,9 +191,11 @@ const EditQuestion = () => {
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values?.options?.map(option => {
-                    return { label: option, value: option };
-                  })}
+                  options={values.options
+                    .filter(option => option)
+                    .map(option => {
+                      return { label: option, value: option };
+                    })}
                   placeholder="Select correct option"
                 />
 

@@ -31,10 +31,7 @@ const CreateQuestion = () => {
   }, []);
 
   const handleSubmit = async values => {
-    if (
-      values.options.includes(values?.answer?.value) &&
-      values?.answer?.value
-    ) {
+    if (values.options.includes(values?.answer?.value)) {
       try {
         await questionApi.create({
           questions: {
@@ -137,13 +134,14 @@ const CreateQuestion = () => {
                     </div>
                   )}
                 />
-
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values.options.map(option => {
-                    return { label: option, value: option };
-                  })}
+                  options={values.options
+                    .filter(option => option)
+                    .map(option => {
+                      return { label: option, value: option };
+                    })}
                   placeholder="Select correct option"
                 />
 
