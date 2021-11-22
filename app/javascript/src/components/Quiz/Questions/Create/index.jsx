@@ -31,7 +31,10 @@ const CreateQuestion = () => {
   }, []);
 
   const handleSubmit = async values => {
-    if (values.options.includes(values?.answer?.value)) {
+    if (
+      values.options.includes(values?.answer?.value) &&
+      values?.answer?.value
+    ) {
       try {
         await questionApi.create({
           questions: {

@@ -80,7 +80,10 @@ const EditQuestion = () => {
       return [...options, ...newOptions];
     };
     const formattedOption = setOptionAttributes();
-    if (values.options.includes(values?.answer?.value)) {
+    if (
+      values.options.includes(values?.answer?.value) &&
+      values?.answer?.value
+    ) {
       try {
         await questionApi.update(question_id, {
           questions: {
