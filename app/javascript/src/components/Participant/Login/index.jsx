@@ -16,14 +16,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { slug } = useParams();
   const history = useHistory();
   const { slugVerified, setParticipantData } = useContext(ParticipantContext);
 
   const fetchQuiz = async () => {
     try {
-      setLoading(true);
       const response = await publicApi.showQuiz(slug);
       setQuiz(response.data?.quiz);
     } catch (error) {
@@ -36,6 +35,7 @@ const Login = () => {
   useEffect(() => {
     if (!slugVerified) {
       history.push(`/public/${slug}`);
+      setLoading(false);
     } else {
       fetchQuiz();
     }

@@ -8,14 +8,13 @@ import publicApi from "apis/public";
 import { ParticipantContext } from "../../contexts/ParticipantContext";
 
 const Participant = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { slug } = useParams();
   const { setSlugVerified } = useContext(ParticipantContext);
 
   const fetchQuiz = async () => {
     try {
-      setLoading(true);
       await publicApi.showQuiz(slug);
       setSlugVerified(true);
       history.push(`/public/${slug}/attempt/new`);

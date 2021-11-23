@@ -2,7 +2,7 @@
 
 class Public::QuestionsController < ApplicationController
   before_action :authenticate_user_using_x_auth_token
-  before_action :load_quiz, only: %i[show]
+  before_action :load_quiz, only: :show
 
   def show
     @questions = @quiz.questions.map do
