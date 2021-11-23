@@ -13,9 +13,9 @@ const Participant = () => {
   const { slug } = useParams();
   const { setSlugVerified } = useContext(ParticipantContext);
 
-  const fetchQuiz = async () => {
+  const verifySlug = async () => {
     try {
-      await publicApi.showQuiz(slug);
+      await publicApi.verifySlug(slug);
       setSlugVerified(true);
       history.push(`/public/${slug}/attempt/new`);
     } catch (error) {
@@ -26,7 +26,7 @@ const Participant = () => {
   };
 
   useEffect(() => {
-    fetchQuiz();
+    verifySlug();
   }, []);
   if (loading) {
     return (

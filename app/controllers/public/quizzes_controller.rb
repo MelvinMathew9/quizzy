@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class Public::QuizzesController < ApplicationController
-  before_action :load_quiz, only: :show
+  before_action :load_quiz
 
   def show
     render json: { quiz: { id: @quiz.id, title: @quiz.title } }, status: :ok
+  end
+
+  def slug_verify
+    render json: { slug: "verified" }, status: :ok
   end
 
   private

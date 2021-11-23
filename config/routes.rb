@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     end
 
     namespace :public do
-      resources :quizzes, only: %i[show], param: :slug
+      resources :quizzes, only: %i[show], param: :slug do
+        get "slug_verify", on: :member
+      end
       resources :questions, only: %i[show], param: :slug
       resources :attempts, only: %i[create show]
       resources :attempt_answers, only: %i[create]

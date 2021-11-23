@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Public::QuestionsController < ApplicationController
-  before_action :load_quiz, only: :show
+  before_action :load_quiz
 
   def show
     @questions = @quiz.questions.map do
