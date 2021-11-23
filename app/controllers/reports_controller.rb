@@ -3,7 +3,7 @@
 class ReportsController < ApplicationController
   before_action :authenticate_user_using_x_auth_token, except: :export_download
   def index
-    quiz_ids = @current_user.quizzes.map { |quiz| quiz.id }
+    quiz_ids = @current_user.quizzes.pluck(:id)
     @attempts = Attempt.where(submitted: true, quiz_id: quiz_ids).joins(
       :user,
       :quiz).select("attempts.*, quizzes.title, users.first_name, users.last_name, users.email")
