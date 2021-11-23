@@ -8,7 +8,13 @@ Rails.application.routes.draw do
       post "publish", on: :member
     end
     resources :questions, except: %i[edit index]
-    resources :reports, only: %i[index]
+    resources :reports, only: %i[index] do
+      collection do
+        get "export"
+        get "export_status"
+        get "export_download"
+      end
+    end
 
     namespace :public do
       resources :quizzes, only: %i[show], param: :slug
@@ -21,8 +27,5 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
-  get "/export" => "reports#export"
-  get "/export_status" => "reports#export_status"
-  get "/export_download" => "reports#export_download"
   get "*path", to: "home#index", via: :all
 end

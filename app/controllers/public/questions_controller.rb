@@ -12,10 +12,6 @@ class Public::QuestionsController < ApplicationController
 
   private
 
-    def quiz_params
-      params.require(:quiz).permit(:mode)
-    end
-
     def load_quiz
       @quiz = Quiz.find_by_slug!(params[:slug])
       rescue ActiveRecord::RecordNotFound => e

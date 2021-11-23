@@ -11,13 +11,12 @@ import Table from "./Table";
 
 const Report = () => {
   const [report, setReport] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState();
   const [jobId, setJobId] = useState();
 
   const fetchReport = async () => {
     try {
-      setLoading(true);
       const response = await reportApi.fetch();
       setReport(
         response.data?.reports?.sort((a, b) => (a.title > b.title ? 1 : -1))
@@ -39,7 +38,7 @@ const Report = () => {
   };
 
   const handleDownload = async () => {
-    window.location.href = `/export_download.xlsx?id=${jobId}`;
+    window.location.href = `/reports/export_download.xlsx?id=${jobId}`;
   };
 
   useEffect(() => {

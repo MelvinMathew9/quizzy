@@ -18,8 +18,8 @@ class Public::AttemptsController < ApplicationController
 
   def show
     if @attempt.submitted
-      submitted_answers = AttemptAnswer.where({ attempt_id: @attempt.id })
-      answers = @quiz.questions.map { |q| {
+      submitted_answers = @attempt.attempt_answers
+      answers = @attempt.quiz.questions.map { |q| {
         id: q.id, question: q.question, options: q.options, submitted_answer: submitted_answers.find { |answer|
 answer.question_id == q.id } ? submitted_answers.find { |answer| answer.question_id == q.id }.answer : 0
       } }
@@ -37,7 +37,6 @@ answer.question_id == q.id } ? submitted_answers.find { |answer| answer.question
 
     def load_attempt
       @attempt = Attempt.find(params[:id])
-      @quiz = Quiz.find(@attempt.quiz_id)
       rescue ActiveRecord::RecordNotFound => e
         render json: { error: e }, status: :not_found
     end

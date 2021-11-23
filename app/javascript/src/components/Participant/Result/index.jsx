@@ -54,7 +54,7 @@ const Result = () => {
         <Button
           label={`${score?.incorrect_answers_count}`}
           style="danger"
-          icon={() => <CloseCircle size={16} />}
+          icon={CloseCircle}
         />
       </div>
       {answers?.map((data, index) => (
