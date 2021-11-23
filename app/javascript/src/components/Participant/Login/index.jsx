@@ -3,9 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PageLoader } from "neetoui";
 import { useHistory, useParams } from "react-router";
 
-import { setAuthHeaders } from "apis/axios";
 import publicApi from "apis/public";
-import { setToSessionsStorage } from "helpers/storage";
 
 import Create from "./Create";
 
@@ -59,12 +57,6 @@ const Login = () => {
           user_id: response.data?.user?.id,
         },
       });
-      setToSessionsStorage({
-        authToken: response.data.user.authentication_token,
-        email: response.data.user.email,
-        userId: response.data.user.id,
-        userName: `${response.data.user.first_name} ${response.data.user.last_name}`,
-      });
       setParticipantData({
         authToken: response.data.user.authentication_token,
         email: response.data.user.email,
@@ -72,7 +64,6 @@ const Login = () => {
         userName: `${response.data.user.first_name} ${response.data.user.last_name}`,
         attempt_id: attemptResponse.data?.attempt?.id,
       });
-      setAuthHeaders(setLoading, "standard");
       history.push(`/public/${slug}/attempt/quiz-new`);
     } catch (error) {
       logger.error(error);

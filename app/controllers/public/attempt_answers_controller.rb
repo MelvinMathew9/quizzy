@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Public::AttemptAnswersController < ApplicationController
-  before_action :authenticate_user_using_x_auth_token
   before_action :load_attempt
 
   def create
