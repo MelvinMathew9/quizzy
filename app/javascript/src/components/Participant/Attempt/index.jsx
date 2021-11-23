@@ -10,13 +10,12 @@ import { ParticipantContext } from "../../../contexts/ParticipantContext";
 const Attempt = () => {
   const [questions, setQuestions] = useState();
   const [selectedAnswer, setSelectedAnswer] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { participantData, slugVerified } = useContext(ParticipantContext);
   const { slug } = useParams();
   const history = useHistory();
   const fetchQuestion = async () => {
     try {
-      setLoading(true);
       const attemptResponse = await publicApi.showAnswers(
         participantData?.attempt_id
       );
@@ -56,6 +55,7 @@ const Attempt = () => {
   useEffect(() => {
     if (!slugVerified || !participantData) {
       history.push(`/public/${slug}`);
+      setLoading(false);
     } else {
       fetchQuestion();
     }

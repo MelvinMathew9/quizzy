@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Public::QuestionsController < ApplicationController
-  before_action :authenticate_user_using_x_auth_token
-  before_action :load_quiz, only: %i[show]
+  before_action :load_quiz
 
   def show
     @questions = @quiz.questions.map do
@@ -11,10 +10,6 @@ class Public::QuestionsController < ApplicationController
   end
 
   private
-
-    def quiz_params
-      params.require(:quiz).permit(:mode)
-    end
 
     def load_quiz
       @quiz = Quiz.find_by_slug!(params[:slug])

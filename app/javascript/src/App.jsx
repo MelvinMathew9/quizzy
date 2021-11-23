@@ -52,79 +52,81 @@ const App = () => {
       <Router>
         <Toaster position="bottom-center" />
         <Topbar isLoggedIn={isLoggedIn} />
-        <ParticipantContext.Provider
-          value={{
-            participantData,
-            setParticipantData,
-            slugVerified,
-            setSlugVerified,
-          }}
-        >
-          <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/public/:slug" component={Participant} />
-            <Route
-              exact
-              path="/public/:slug/attempt/new"
-              component={ParticipantLogin}
-            />
-            <Route
-              exact
-              path="/public/:slug/attempt/quiz-new"
-              component={Attempt}
-            />
-            <Route
-              exact
-              path="/public/:slug/attempt/quiz-result"
-              component={Result}
-            />
 
-            <PrivateRoute
-              exact
-              path="/quizzes/new"
-              condition={isLoggedIn}
-              component={CreateQuiz}
-            />
-            <PrivateRoute
-              exact
-              condition={isLoggedIn}
-              path="/quizzes/:quiz_id/edit"
-              component={EditQuiz}
-            />
-            <PrivateRoute
-              exact
-              condition={isLoggedIn}
-              path="/quizzes/:quiz_id/show"
-              component={ShowQuiz}
-            />
-            <PrivateRoute
-              exact
-              condition={isLoggedIn}
-              path="/reports"
-              component={Report}
-            />
-            <PrivateRoute
-              exact
-              condition={isLoggedIn}
-              path="/questions/new"
-              component={CreateQuestion}
-            />
-            <PrivateRoute
-              exact
-              condition={isLoggedIn}
-              path="/questions/:question_id/edit"
-              component={EditQuestion}
-            />
-            <PrivateRoute
-              exact
-              path="/"
-              redirectRoute="/login"
-              condition={isLoggedIn}
-              component={Dashboard}
-            />
-            <Route component={Fallback} />
-          </Switch>
-        </ParticipantContext.Provider>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route path={"/public"}>
+            <ParticipantContext.Provider
+              value={{
+                participantData,
+                setParticipantData,
+                slugVerified,
+                setSlugVerified,
+              }}
+            >
+              <Route exact path="/public/:slug" component={Participant} />
+              <Route
+                exact
+                path="/public/:slug/attempt/new"
+                component={ParticipantLogin}
+              />
+              <Route
+                exact
+                path="/public/:slug/attempt/quiz-new"
+                component={Attempt}
+              />
+              <Route
+                exact
+                path="/public/:slug/attempt/quiz-result"
+                component={Result}
+              />
+            </ParticipantContext.Provider>
+          </Route>
+          <PrivateRoute
+            exact
+            path="/quizzes/new"
+            condition={isLoggedIn}
+            component={CreateQuiz}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/quizzes/:quiz_id/edit"
+            component={EditQuiz}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/quizzes/:quiz_id/show"
+            component={ShowQuiz}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/reports"
+            component={Report}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/questions/new"
+            component={CreateQuestion}
+          />
+          <PrivateRoute
+            exact
+            condition={isLoggedIn}
+            path="/questions/:question_id/edit"
+            component={EditQuestion}
+          />
+          <PrivateRoute
+            exact
+            path="/"
+            redirectRoute="/login"
+            condition={isLoggedIn}
+            component={Dashboard}
+          />
+          <Route component={Fallback} />
+        </Switch>
       </Router>
     </ErrorBoundary>
   );

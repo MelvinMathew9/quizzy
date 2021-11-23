@@ -7,6 +7,7 @@ const createAttempt = payload => axios.post("/public/attempts", payload);
 const createAttemptAnswers = payload =>
   axios.post("/public/attempt_answers", payload);
 const showAnswers = id => axios.get(`/public/attempts/${id}`);
+const verifySlug = slug => axios.get(`/public/quizzes/${slug}/slug_verify`);
 
 const publicApi = {
   showQuiz,
@@ -15,6 +16,7 @@ const publicApi = {
   createAttempt,
   createAttemptAnswers,
   showAnswers,
+  verifySlug,
 };
 
 export default publicApi;

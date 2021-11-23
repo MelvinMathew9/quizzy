@@ -9,7 +9,7 @@ class QuizPolicy
   end
 
   def show?
-    quiz.user_id == user.id && user.role == "administrator"
+    quiz.user_id == user.id && user.administrator?
   end
 
   def update?
@@ -21,7 +21,7 @@ class QuizPolicy
   end
 
   def create?
-    user.role == "administrator"
+    user.administrator?
   end
 
   def destroy?

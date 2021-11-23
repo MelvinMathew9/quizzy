@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const fetch = () => axios.get("/reports");
-const exportReport = () => axios.get("/export");
-const exportStatus = id => axios.get(`/export_status?id=${id}`);
+const exportReport = () => axios.get("/reports/export");
+const exportStatus = id => axios.get(`/reports/export_status?id=${id}`);
 
 const reportApi = {
   fetch,

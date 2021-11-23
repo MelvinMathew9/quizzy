@@ -10,14 +10,13 @@ import { ParticipantContext } from "../../../contexts/ParticipantContext";
 
 const Result = () => {
   const { slug } = useParams();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const [answers, setAnswers] = useState();
   const history = useHistory();
   const [score, setScore] = useState(0);
   const { slugVerified, participantData } = useContext(ParticipantContext);
   const fetchResult = async () => {
     try {
-      setLoading(true);
       const response = await publicApi.showAnswers(participantData?.attempt_id);
       setAnswers(response.data?.answers);
       setScore(response.data?.attempt);
@@ -30,6 +29,7 @@ const Result = () => {
   useEffect(() => {
     if (!slugVerified || !participantData) {
       history.push(`/public/${slug}`);
+      setLoading(false);
     } else {
       fetchResult();
     }
@@ -54,7 +54,7 @@ const Result = () => {
         <Button
           label={`${score?.incorrect_answers_count}`}
           style="danger"
-          icon={() => <CloseCircle size={16} />}
+          icon={CloseCircle}
         />
       </div>
       {answers?.map((data, index) => (

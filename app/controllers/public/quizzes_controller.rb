@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 class Public::QuizzesController < ApplicationController
-  before_action :load_quiz, only: %i[show]
+  before_action :load_quiz
 
   def show
     render json: { quiz: { id: @quiz.id, title: @quiz.title } }, status: :ok
   end
 
-  private
+  def slug_verify
+    render json: { slug: "verified" }, status: :ok
+  end
 
-    def quiz_params
-      params.require(:quiz).permit(:mode)
-    end
+  private
 
     def load_quiz
       @quiz = Quiz.find_by_slug!(params[:slug])
