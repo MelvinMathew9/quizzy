@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import DeleteModal from "./Common/DeleteModal";
 import Table from "./Table";
 
-const Quiz = ({ data, fetchQuizzes }) => {
+const QuizList = ({ data, fetchQuizzes }) => {
   const [modal, setShowModal] = useState(false);
   const [quiz, setQuiz] = useState({});
 
@@ -22,4 +22,4 @@ const Quiz = ({ data, fetchQuizzes }) => {
   );
 };
 
-export default Quiz;
+export default QuizList;

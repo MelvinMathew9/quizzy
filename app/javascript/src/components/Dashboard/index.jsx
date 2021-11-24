@@ -6,7 +6,7 @@ import { isNil, isEmpty, either } from "ramda";
 
 import quizApi from "apis/quiz";
 
-import Quiz from "../Quiz";
+import QuizList from "../Quiz";
 
 const Dashboard = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -52,7 +52,7 @@ const Dashboard = () => {
           You have not created any quiz
         </Typography>
       ) : (
-        <Quiz data={quizzes} fetchQuizzes={fetchQuizzes} />
+        <QuizList data={quizzes} fetchQuizzes={fetchQuizzes} />
       )}
     </div>
   );
