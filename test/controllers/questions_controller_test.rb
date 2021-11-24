@@ -4,7 +4,7 @@ require "test_helper"
 
 class QuestionsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @user = User.new(
+    @user = User.create(
       first_name: "Sam",
       last_name: "Smith",
       email: "sam@example.com",
@@ -12,20 +12,17 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
       password_confirmation: "welcome",
       role: "administrator"
     )
-    @quiz = Quiz.new(
+    @quiz = Quiz.create(
       title: "test",
       user: @user
     )
-    @question = Question.new(
+    @question = Question.create(
       question: "test",
       quiz: @quiz,
       options_attributes: [{ content: "1", is_answer: true }, { content: "2", is_answer: false }])
   end
 
   def test_should_create_valid_question
-    @user.save
-    @quiz.save
-    puts @question
     post questions_url, params: {
       questions: {
         question: @question.question,
@@ -40,17 +37,12 @@ class QuestionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_creator_can_show_quiz
-    @user.save
-    @quiz.save
     get "/quetions/#{@quiz.id}",
       headers: { "X-Auth-Token" => @user.authentication_token, "X-Auth-Email" => @user.email }
     assert_response :success
   end
 
   def test_creator_can_update_any_quiz_fields
-    @user.save
-    @quiz.save
-    @question.save
     new_title = "#{@quiz.title}test"
     question_params = {
       questions: {
@@ -67,9 +59,6 @@ headers: { "X-Auth-Token" => @user.authentication_token, "X-Auth-Email" => @user
   end
 
   def test_creator_should_be_able_to_destroy_quiz
-    @user.save
-    @quiz.save
-    @question.save
     initial_question_count = Question.all.size
     delete "/questions/#{@question.id}",
       headers: { "X-Auth-Token" => @user.authentication_token, "X-Auth-Email" => @user.email }
