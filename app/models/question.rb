@@ -20,7 +20,9 @@ class Question < ApplicationRecord
     end
 
     def uniqueness_of_options
-      errors.add(:options, "Options must be unique") if options.map(&:content).uniq.size != options.size
+      errors.add(
+        :options,
+        "Options must be unique") if options.reject(&:marked_for_destruction?).map(&:content).uniq.size != options.reject(&:marked_for_destruction?).size
     end
 
     def exactly_one_answer_should_present_in_options
