@@ -4,7 +4,7 @@ import { Highlight, Delete, CheckCircle } from "neetoicons";
 import { Button, Typography, Tag } from "neetoui";
 import { useHistory, useParams } from "react-router";
 
-const ShowComponent = ({ data, index, setShowModal, setQuestion }) => {
+const Question = ({ data, index, setShowModal, setQuestion }) => {
   const { quiz_id } = useParams();
   const history = useHistory();
   const handleDelete = question => {
@@ -60,4 +60,4 @@ const ShowComponent = ({ data, index, setShowModal, setQuestion }) => {
     </div>
   );
 };
-export default ShowComponent;
+export default Question;

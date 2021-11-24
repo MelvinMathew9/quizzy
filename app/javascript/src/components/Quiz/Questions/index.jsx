@@ -7,7 +7,7 @@ import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
 
-import Show from "./Show";
+import ShowQuestion from "./Show";
 
 import DeleteModal from "../Common/DeleteModal";
 
@@ -92,7 +92,7 @@ const Questions = () => {
       )}
       {quiz.questions.length ? (
         quiz.questions.map((question, index) => (
-          <Show
+          <ShowQuestion
             key={index}
             data={question}
             index={index}
