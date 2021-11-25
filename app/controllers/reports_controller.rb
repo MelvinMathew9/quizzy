@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ReportsController < ApplicationController
-  before_action :authenticate_user_using_x_auth_token, except: :export_download
+  before_action :authenticate_user_using_x_auth_token
   def index
     quiz_ids = @current_user.quizzes.pluck(:id)
     @attempts = Attempt.where(submitted: true, quiz_id: quiz_ids).joins(
