@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
-import { setAnswerFieldValues } from "helpers";
+import { setAnswerFieldValues, handleDeleteOptions } from "helpers";
 import { Plus, Delete, LeftArrowCircle } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
@@ -171,7 +171,9 @@ const EditQuestion = () => {
                             <Button
                               style="text"
                               icon={Delete}
-                              onClick={() => arrayHelpers.remove(index)}
+                              onClick={() =>
+                                handleDeleteOptions(values, arrayHelpers, index)
+                              }
                             />
                           </div>
                         );

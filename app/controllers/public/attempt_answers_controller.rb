@@ -11,8 +11,9 @@ class Public::AttemptAnswersController < ApplicationController
     attempt_answer_params[:list].each do |answer|
       attempted_answer = @attempt.attempt_answers.new(answer)
       attempted_answer.save
-      correct += 1 if questions.find { |question|
- question[:id].to_i == answer["question_id"].to_i }[:answer].to_i == answer["answer"].to_i
+      correct += 1 if questions.find do |question|
+                        question[:id].to_i == answer["question_id"].to_i
+                      end[:answer].to_i == answer["answer"].to_i
     end
     @attempt.update(
       {
