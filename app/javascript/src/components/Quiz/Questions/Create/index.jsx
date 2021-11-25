@@ -31,7 +31,12 @@ const CreateQuestion = () => {
   useEffect(() => {
     fetchQuiz();
   }, []);
-
+  const handleDelete = (values, arrayHelpers, index) => {
+    {
+      values.answer = {};
+      arrayHelpers.remove(index);
+    }
+  };
   const handleSubmit = async values => {
     if (values.options.includes(values?.answer?.value)) {
       try {
@@ -119,7 +124,9 @@ const CreateQuestion = () => {
                             <Button
                               style="text"
                               icon={Delete}
-                              onClick={() => arrayHelpers.remove(index)}
+                              onClick={() =>
+                                handleDelete(values, arrayHelpers, index)
+                              }
                             />
                           </div>
                         );

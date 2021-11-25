@@ -47,7 +47,12 @@ const EditQuestion = () => {
   useEffect(() => {
     fetchQuiz();
   }, []);
-
+  const handleDelete = (values, arrayHelpers, index) => {
+    {
+      values.answer = {};
+      arrayHelpers.remove(index);
+    }
+  };
   const handleSubmit = async values => {
     const setOptionAttributes = () => {
       let newOptions = [];
@@ -171,7 +176,9 @@ const EditQuestion = () => {
                             <Button
                               style="text"
                               icon={Delete}
-                              onClick={() => arrayHelpers.remove(index)}
+                              onClick={() =>
+                                handleDelete(values, arrayHelpers, index)
+                              }
                             />
                           </div>
                         );
