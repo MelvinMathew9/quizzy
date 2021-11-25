@@ -19,8 +19,6 @@ class Public::UsersController < ApplicationController
 
     def load_user
       @user = User.find_by_email(user_params[:email])
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { error: e }, status: :not_found
     end
 
     def user_params
