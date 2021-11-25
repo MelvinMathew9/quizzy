@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
 import { setAnswerFieldValues } from "helpers";
+import { handleDeleteOptions } from "helpers";
 import { Plus, Delete, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
@@ -31,12 +32,7 @@ const CreateQuestion = () => {
   useEffect(() => {
     fetchQuiz();
   }, []);
-  const handleDelete = (values, arrayHelpers, index) => {
-    {
-      values.answer = {};
-      arrayHelpers.remove(index);
-    }
-  };
+
   const handleSubmit = async values => {
     if (values.options.includes(values?.answer?.value)) {
       try {
@@ -125,7 +121,7 @@ const CreateQuestion = () => {
                               style="text"
                               icon={Delete}
                               onClick={() =>
-                                handleDelete(values, arrayHelpers, index)
+                                handleDeleteOptions(values, arrayHelpers, index)
                               }
                             />
                           </div>
