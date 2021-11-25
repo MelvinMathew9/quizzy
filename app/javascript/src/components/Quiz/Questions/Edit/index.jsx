@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
+import { setAnswerFieldValues } from "helpers";
 import { Plus, Delete, LeftArrowCircle } from "neetoicons";
 import { Typography, Button, PageLoader } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
@@ -192,11 +193,7 @@ const EditQuestion = () => {
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values.options
-                    .filter(option => option)
-                    .map(option => {
-                      return { label: option, value: option };
-                    })}
+                  options={setAnswerFieldValues(values.options)}
                   placeholder="Select correct option"
                 />
 

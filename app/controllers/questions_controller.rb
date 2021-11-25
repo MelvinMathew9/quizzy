@@ -7,9 +7,9 @@ class QuestionsController < ApplicationController
   before_action :load_question, only: %i[destroy show update]
 
   def create
-    question = Question.new(question_params)
+    question = @quiz.questions.new(question_params)
     authorize question.quiz
-    if question.save!
+    if question.save
       render status: :ok, json: { notice: t("successfully_created", entity: "Question") }
     else
       errors = question.errors.full_messages.to_sentence
@@ -19,7 +19,6 @@ class QuestionsController < ApplicationController
 
   def show
     authorize @question.quiz
-    render status: :ok, json: { question: { question: @question.question, options: @question.options } }
   end
 
   def update

@@ -18,10 +18,11 @@ class Public::AttemptsController < ApplicationController
   def show
     if @attempt.submitted
       submitted_answers = @attempt.attempt_answers
-      answers = @attempt.quiz.questions.map { |q| {
-        id: q.id, question: q.question, options: q.options, submitted_answer: submitted_answers.find { |answer|
-answer.question_id == q.id } ? submitted_answers.find { |answer| answer.question_id == q.id }.answer : 0
-      } }
+      answers = @attempt.quiz.questions.map do |question| {
+        id: question.id, question: question.question, options: question.options,
+        submitted_answer: submitted_answers.find do |answer|
+answer.question_id == question.id end ? submitted_answers.find { |answer| answer.question_id == question.id }.answer : 0
+      } end
       render status: :ok, json: { answers: answers, attempt: @attempt }
     else
       render status: :ok, json: { attempt: @attempt }

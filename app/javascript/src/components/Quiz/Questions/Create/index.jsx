@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { Formik, Form, FieldArray } from "formik";
+import { setAnswerFieldValues } from "helpers";
 import { Plus, Delete, LeftArrowCircle } from "neetoicons";
 import { Typography, Button } from "neetoui";
 import { Input, Select, Textarea } from "neetoui/formik";
@@ -26,6 +27,7 @@ const CreateQuestion = () => {
       logger.error(error);
     }
   };
+
   useEffect(() => {
     fetchQuiz();
   }, []);
@@ -138,11 +140,7 @@ const CreateQuestion = () => {
                 <Select
                   label="Answer"
                   name="answer"
-                  options={values.options
-                    .filter(option => option)
-                    .map(option => {
-                      return { label: option, value: option };
-                    })}
+                  options={setAnswerFieldValues(values?.options)}
                   placeholder="Select correct option"
                 />
 
