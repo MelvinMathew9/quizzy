@@ -2,6 +2,9 @@
 
 class HomeController < ApplicationController
   def index
-    render
+    respond_to do |format|
+      format.html
+      format.json { render json: { status: "ok" } }
+    end
   end
 end

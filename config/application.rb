@@ -8,7 +8,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module QuizzyByMelvin9
+module Quizzy
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
@@ -16,5 +16,6 @@ module QuizzyByMelvin9
       g.test_framework :test_unit, fixture: false
     end
     config.active_job.queue_adapter = :sidekiq
+    config.autoload_paths << Rails.root.join("lib")
   end
 end

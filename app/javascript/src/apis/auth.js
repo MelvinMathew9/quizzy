@@ -2,7 +2,7 @@ import axios from "axios";
 
 const login = payload => axios.post("/session", payload);
 
-const signup = payload => axios.post("/users", payload);
+const signup = payload => axios.post("/api/v1/users", payload);
 
 const logout = () => axios.delete(`/session`);
 

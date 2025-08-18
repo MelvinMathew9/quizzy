@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import { createConsumer } from "@rails/actioncable";
 import { Download } from "neetoicons";
 import { PageLoader, Typography, Button } from "neetoui";
 
@@ -31,7 +32,7 @@ const Report = () => {
     try {
       setStatus("started");
       const response = await reportApi.exportReport();
-      setJobId(response.data?.jid);
+      setJobId(response.data?.id);
     } catch (error) {
       logger.error(error);
     }
@@ -55,19 +56,23 @@ const Report = () => {
   };
 
   useEffect(() => {
-    if (jobId) {
-      const intervalId = setInterval(async () => {
-        try {
-          const response = await reportApi.exportStatus(jobId);
-          if (response.data.status === "complete") {
+    if (!jobId) return undefined;
+
+    const cable = createConsumer();
+    const subscription = cable.subscriptions.create(
+      { channel: "ReportChannel", job_id: jobId },
+      {
+        received: data => {
+          if (data.status === "complete") {
             setStatus("completed");
-            clearInterval(intervalId);
           }
-        } catch (error) {
-          logger.error(error);
-        }
-      }, 2000);
-    }
+        },
+      }
+    );
+    return () => {
+      subscription.unsubscribe();
+      cable.disconnect();
+    };
   }, [jobId]);
 
   useEffect(() => {

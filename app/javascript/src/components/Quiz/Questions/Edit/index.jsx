@@ -92,7 +92,7 @@ const EditQuestion = () => {
             options_attributes: formattedOption,
           },
         });
-        history.push(`/quizzes/${quiz_id}/show`);
+        history.push(`/quizzes/${quiz_id}`);
       } catch (error) {
         logger.error(error);
       }
@@ -129,7 +129,7 @@ const EditQuestion = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/show`}
+                  to={`/quizzes/${quiz_id}`}
                   icon={LeftArrowCircle}
                 />
               </div>
