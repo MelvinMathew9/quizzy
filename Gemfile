@@ -43,8 +43,13 @@ group :development, :test do
   gem "sqlite3", "~> 1.4"
 
   # For code formatting and linting
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "rspec-rails"
   gem "rubocop"
   gem "rubocop-rails"
+  gem "rubocop-rspec"
+  gem "shoulda-matchers", "~> 5.0"
 end
 
 group :development do

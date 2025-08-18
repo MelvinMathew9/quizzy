@@ -6,12 +6,13 @@ module SlugGenerator
   class_methods do
     def generate_unique_slug_for(title)
       base_slug = title.to_s.parameterize
-      regex = /\A#{Regexp.escape(base_slug)}(?:-(\d+))?\z/
-
-      matching_slugs = where("slug LIKE ?", "#{base_slug}%").pluck(:slug)
-      max_suffix = matching_slugs.map { |s| s[regex, 1].to_i }.max || 0
-
-      max_suffix.zero? ? base_slug : "#{base_slug}-#{max_suffix + 1}"
+      candidate_slug = base_slug
+      counter = 2
+      while where(slug: candidate_slug).exists?
+        candidate_slug = "#{base_slug}-#{counter}"
+        counter += 1
+      end
+      candidate_slug
     end
   end
 end
