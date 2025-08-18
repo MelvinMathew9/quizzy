@@ -13,19 +13,32 @@ class Api::V1::ReportsController < ApplicationController
   end
 
   def export_status
-    job_id = params[:id]
-    job_status = Sidekiq::Status.get_all(job_id).symbolize_keys
-    render json: { status: job_status[:status] }
+    render json: { status: job_status }
   end
 
   def export_download
-    job_id = params[:id]
-    exported_file_name = "report_export_#{job_id}.xlsx"
-    filename = "ReportData_#{DateTime.now.strftime("%Y%m%d_%H%M%S")}.xlsx"
     respond_to do |format|
       format.xlsx do
-        send_file Rails.root.join("tmp", exported_file_name), type: :xlsx, filename: filename
+        send_file exported_file_path, type: :xlsx, filename: download_filename
       end
     end
   end
+
+  private
+
+    def job_id
+      params[:id]
+    end
+
+    def job_status
+      Sidekiq::Status.get_all(job_id).symbolize_keys[:status]
+    end
+
+    def exported_file_path
+      Rails.root.join("tmp", "report_export_#{job_id}.xlsx")
+    end
+
+    def download_filename
+      "ReportData_#{DateTime.now.strftime('%Y%m%d_%H%M%S')}.xlsx"
+    end
 end

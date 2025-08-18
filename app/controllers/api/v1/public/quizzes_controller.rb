@@ -15,7 +15,5 @@ class Api::V1::Public::QuizzesController < ApplicationController
 
     def load_quiz
       @quiz = Quiz.find_by_slug!(params[:slug])
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { error: e }, status: :not_found
     end
 end

@@ -11,6 +11,14 @@ class Question < ApplicationRecord
   validate :uniqueness_of_options
   validate :exactly_one_answer_should_present_in_options
 
+  def as_json
+    {
+      id: id,
+      question: question,
+      options: options.map { |option| { id: option.id, content: option.content } }
+    }
+  end
+
   private
 
     def check_options_length

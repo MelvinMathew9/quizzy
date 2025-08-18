@@ -4,34 +4,26 @@ class Api::V1::Public::AttemptAnswersController < ApplicationController
   before_action :load_attempt
 
   def create
-    correct = 0
-    questions = @attempt.quiz.questions.map do |question|
-      { id: question.id, answer: question.options.find { |option| option.is_answer }.id }
+    service.process
+
+    if service.success?
+      respond_with_success(t("successfully_submitted", entity: "Quiz"))
+    else
+      respond_with_error(service.errors)
     end
-    attempt_answer_params[:list].each do |answer|
-      attempted_answer = @attempt.attempt_answers.new(answer)
-      attempted_answer.save
-      correct += 1 if questions.find do |question|
-                        question[:id].to_i == answer["question_id"].to_i
-                      end[:answer].to_i == answer["answer"].to_i
-    end
-    @attempt.update(
-      {
-        submitted: true, correct_answers_count: correct,
-        incorrect_answers_count: questions.size - correct
-      })
-    render status: :ok, json: { notice: t("successfully_submitted", entity: "Quiz") }
   end
 
   private
 
-    def load_attempt
-      @attempt = Attempt.find(attempt_answer_params[:attempt_id])
-      rescue ActiveRecord::RecordNotFound => e
-        render json: { error: e }, status: :not_found
+    def service
+      @service ||= QuizSubmissionService.new(@attempt, answer_params[:list])
     end
 
-    def attempt_answer_params
+    def load_attempt
+      @attempt = Attempt.find(answer_params[:attempt_id])
+    end
+
+    def answer_params
       params.require(:answers).permit(:attempt_id, list: [:answer, :question_id])
     end
 end

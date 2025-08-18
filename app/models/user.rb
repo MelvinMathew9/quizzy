@@ -4,9 +4,13 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A([\w+\-].?)+@[a-z\d\-]+(\. [a-z]+)*\.[a-z]+\z/i
   MAX_NAME_LENGTH = 50
   MIN_PASSWORD_LENGTH = 6
+  DEFAULT_PASSWORD = "welcome"
+
   has_many :quizzes
   has_many :attempts, dependent: :destroy
+
   enum role: { standard: 0, administrator: 1 }
+
   has_secure_password
   has_secure_token :authentication_token
 
@@ -18,6 +22,11 @@ class User < ApplicationRecord
   validates :role, presence: true
 
   before_save :to_downcase
+
+  def set_default_password
+    self.password = DEFAULT_PASSWORD
+    self.password_confirmation = DEFAULT_PASSWORD
+  end
 
   private
 
