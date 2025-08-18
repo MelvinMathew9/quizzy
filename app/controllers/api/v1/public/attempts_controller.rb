@@ -34,12 +34,9 @@ class Api::V1::Public::AttemptsController < ApplicationController
     def serialized_answers(attempt)
       submitted_answers = attempt.attempt_answers.index_by(&:question_id)
       attempt.quiz.questions.map do |question|
-        {
-          id: question.id,
-          question: question.question,
-          options: question.options,
-          submitted_answer: submitted_answers[question.id]&.answer || 0
-        }
+        question.as_json.merge(
+          { submitted_answer: submitted_answers[question.id]&.answer || 0 }
+        )
       end
     end
 end

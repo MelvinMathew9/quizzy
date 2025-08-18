@@ -8,12 +8,9 @@ class Api::V1::ReportsController < ApplicationController
   end
 
   def export
-    job_id = ExportReportWorker.perform_async(@current_user.email)
-    render json: { id: job_id }
-  end
+    job = GenerateReportJob.perform_later(@current_user.email)
 
-  def export_status
-    render json: { status: job_status }
+    render status: :ok, json: { id: job&.job_id }
   end
 
   def export_download
@@ -28,10 +25,6 @@ class Api::V1::ReportsController < ApplicationController
 
     def job_id
       params[:id]
-    end
-
-    def job_status
-      Sidekiq::Status.get_all(job_id).symbolize_keys[:status]
     end
 
     def exported_file_path

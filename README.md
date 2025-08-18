@@ -1,6 +1,8 @@
 ## Quizzy
 
-Quizzy is a full-stack web application for creating, managing, and taking quizzes. Built with Ruby on Rails, Webpack, and Tailwind CSS, it supports user authentication, quiz creation, reporting, and more.
+Quizzy is a full-stack web application for creating, managing, and taking
+quizzes. Built with Ruby on Rails, Webpack, and Tailwind CSS, it supports user
+authentication, quiz creation, reporting, and more.
 
 ---
 
@@ -17,7 +19,6 @@ Quizzy is a full-stack web application for creating, managing, and taking quizze
 ---
 
 ## Getting Started
-
 
 ### Setup Instructions
 
@@ -45,6 +46,10 @@ Quizzy is a full-stack web application for creating, managing, and taking quizze
 6. Start Webpack dev server (for hot reloading):
    ```sh
    bin/webpack-dev-server
+   ```
+7. Start Sidekiq (for background jobs):
+   ```sh
+   bundle exec sidekiq -q reports
    ```
 
 ---
