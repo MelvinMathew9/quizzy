@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Public::UsersController < ApplicationController
+class Api::V1::Public::UsersController < ApplicationController
   before_action :load_user, only: :create
 
   def create

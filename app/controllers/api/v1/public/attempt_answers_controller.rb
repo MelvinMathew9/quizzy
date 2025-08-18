@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Public::AttemptAnswersController < ApplicationController
+class Api::V1::Public::AttemptAnswersController < ApplicationController
   before_action :load_attempt
 
   def create

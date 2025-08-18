@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
-class ReportsController < ApplicationController
-  before_action :authenticate_user_using_x_auth_token
+class Api::V1::ReportsController < ApplicationController
+  include Authenticatable
+
   def index
-    quiz_ids = @current_user.quizzes.pluck(:id)
-    @attempts = Attempt.where(submitted: true, quiz_id: quiz_ids).joins(
-      :user,
-      :quiz).select("attempts.*, quizzes.title, users.first_name, users.last_name, users.email")
+    @attempts = ReportQuery.call(@current_user)
   end
 
   def export
     job_id = ExportReportWorker.perform_async(@current_user.email)
-    render json: { jid: job_id }
+    render json: { id: job_id }
   end
 
   def export_status

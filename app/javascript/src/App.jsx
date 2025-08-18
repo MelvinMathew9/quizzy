@@ -97,7 +97,7 @@ const App = () => {
           <PrivateRoute
             exact
             condition={isLoggedIn}
-            path="/quizzes/:quiz_id/show"
+            path="/quizzes/:quiz_id"
             component={ShowQuiz}
           />
           <PrivateRoute

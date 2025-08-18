@@ -19,7 +19,7 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
             <div className="flex">
               <Button
                 style="link"
-                to={`/quizzes/${quiz.id}/show`}
+                to={`/quizzes/${quiz.id}`}
                 label={quiz.title}
                 className="flex-grow"
               />
@@ -51,6 +51,14 @@ const Table = ({ quizzes, setShowModal, setQuiz }) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
+
+  if (!quizzes.length) {
+    return (
+      <div className="text-center py-8 text-gray-500 text-lg">
+        No quizzes found.
+      </div>
+    );
+  }
 
   return (
     <table

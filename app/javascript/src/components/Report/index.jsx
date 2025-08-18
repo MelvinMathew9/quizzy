@@ -31,7 +31,7 @@ const Report = () => {
     try {
       setStatus("started");
       const response = await reportApi.exportReport();
-      setJobId(response.data?.jid);
+      setJobId(response.data?.id);
     } catch (error) {
       logger.error(error);
     }

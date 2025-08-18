@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import { Plus } from "neetoicons";
+import { Plus, Copy } from "neetoicons";
 import { PageLoader, Button, Typography } from "neetoui";
 import { isEmpty } from "ramda";
+import toast from "react-hot-toast";
 import { useHistory, useParams } from "react-router";
 
 import quizApi from "apis/quiz";
@@ -39,6 +40,7 @@ const Questions = () => {
       logger.error(error);
     }
   };
+
   useEffect(() => {
     fetchQuiz();
   }, [publish]);
@@ -50,6 +52,13 @@ const Questions = () => {
       </div>
     );
   }
+
+  const handleCopyUrl = () => {
+    navigator.clipboard.writeText(
+      `${window.location.origin}/public/${quiz.slug}`
+    );
+    toast.success("Copied to clipboard!");
+  };
 
   return (
     <div className="flex flex-col w-full py-4 md:px-5 px-4 space-y-2">
@@ -79,18 +88,25 @@ const Questions = () => {
         )}
       </div>
       {quiz?.slug && (
-        <div className="self-end">
-          Public URL:
+        <div className="self-end flex items-center space-x-2">
+          <span>Public URL:</span>
+          <a
+            href={`${window.location.origin}/public/${quiz.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline mr-2"
+          >
+            {`${window.location.origin}/public/${quiz.slug}`}
+          </a>
           <Button
-            style="link"
-            label={`${window.location.origin}/public/${quiz.slug}`}
-            onClick={() =>
-              (window.location.href = `${window.location.origin}/public/${quiz.slug}`)
-            }
+            style="text"
+            icon={Copy}
+            onClick={handleCopyUrl}
+            iconPosition="left"
           />
         </div>
       )}
-      {quiz.questions.length ? (
+      {quiz.questions?.length ? (
         quiz.questions.map((question, index) => (
           <ShowQuestion
             key={index}
@@ -103,7 +119,7 @@ const Questions = () => {
       ) : (
         <Typography
           style="h3"
-          className="mt-16 md:mt-40 neeto-ui-text-gray-300 self-center"
+          className="text-center py-8 text-gray-500 text-lg"
         >
           You have not created any questions
         </Typography>

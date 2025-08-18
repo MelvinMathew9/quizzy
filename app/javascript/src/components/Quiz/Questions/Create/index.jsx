@@ -47,7 +47,7 @@ const CreateQuestion = () => {
             }),
           },
         });
-        history.push(`/quizzes/${quiz_id}/show`);
+        history.push(`/quizzes/${quiz_id}`);
       } catch (error) {
         logger.error(error);
       }
@@ -77,7 +77,7 @@ const CreateQuestion = () => {
                     content: "Go Back",
                     position: "right",
                   }}
-                  to={`/quizzes/${quiz_id}/show`}
+                  to={`/quizzes/${quiz_id}`}
                   icon={LeftArrowCircle}
                 />
               </div>
