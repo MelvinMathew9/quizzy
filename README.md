@@ -1,8 +1,7 @@
 ## Quizzy
 
 Quizzy is a full-stack web application for creating, managing, and taking
-quizzes. Built with Ruby on Rails, Webpack, and Tailwind CSS, it supports user
-authentication, quiz creation, reporting, and more.
+quizzes. Built with Ruby on Rails, React, and Tailwind CSS, it supports quiz creation, reporting, and more.
 
 ---
 
@@ -66,8 +65,19 @@ authentication, quiz creation, reporting, and more.
 ## Technologies Used
 
 - Ruby on Rails
+- React
 - Webpack
 - Tailwind CSS
 - Sidekiq (background jobs)
 - PostgreSQL/SQLite
 - JavaScript (ES6)
+
+---
+
+**Key React Features:**
+
+- Modular components for quizzes, questions, reports, and tables
+- API integration for quiz data and user actions
+- Dynamic rendering and navigation for quiz-taking
+- Responsive design with Tailwind CSS
+- Seamless integration with Rails backend
